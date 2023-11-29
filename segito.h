@@ -14,6 +14,8 @@ public:
     void problemakKezelese();
     void elofizetesEllenorzese();
     void elofizetesMegszuntetese();
+
+    void kilepes();
 };
 
 #endif // SEGITO_H

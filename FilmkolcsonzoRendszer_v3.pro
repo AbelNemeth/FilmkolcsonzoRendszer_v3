@@ -7,6 +7,7 @@ CONFIG -= app_bundle
 
 SOURCES += \
         administrator.cpp \
+        elofizetes.cpp \
         elofizeto.cpp \
         felhasznalo.cpp \
         film.cpp \
@@ -25,6 +26,7 @@ DISTFILES += \
 
 HEADERS += \
     administrator.h \
+    elofizetes.h \
     elofizeto.h \
     felhasznalo.h \
     film.h \

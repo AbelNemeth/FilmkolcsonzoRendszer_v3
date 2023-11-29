@@ -18,7 +18,6 @@ class Mukodteto
 {
 private:
     string szID;
-    int tipus;
     string jelszo;
     vector<Hiba> problemakLista;
     vector<Hiba> tranzakciosHibakLista;
@@ -27,7 +26,6 @@ public:
     Mukodteto(string _szID);
 
     virtual void menu() = 0;
-    virtual void SajatAdatokBetolt() = 0;
 
     void felhasznaloiAdatokModositasa();
     void felhaszanloIDModositasa();

@@ -72,32 +72,10 @@ void belepes()
                 tipusIndex[item.toObject()["SzID"].toString().toStdString()] = 4;
                 idEsJelszo[item.toObject()["SzID"].toString().toStdString()] = item.toObject()["jelszo"].toString().toStdString();
             }
-
-            //                        for (auto vas : vasarlokJson) {
-            //                            auto elem = vas.toObject();
-            //                            string SzID = elem["SzID"].toString().toStdString();
-            //                            int tipus = elem["tipus"].toInt();
-            //                            string felhasznaloNev = elem["felhasznaloNev"].toString().toStdString();;
-            //                            string jelszo = elem["jelszo"].toString().toStdString();
-            //                            string emailCim = elem["emailCim"].toString().toStdString();
-            //                            bool elofizeto = elem["elofizeto"].toBool();
-            //                            string bankszamlaSzam = elem["bankszamlaSzam"].toString().toStdString();
-            //                            vasarlok.push_back(new Vasarlo(SzID, tipus, jelszo, emailCim, elofizeto, bankszamlaSzam));
-            //                        }
-
-            //                        for (auto elo : elofizetokJson) {
-            //                            auto elem = elo.toObject();
-            //                            string SzID = elem["SzID"].toString().toStdString();
-            //                            int tipus = elem["tipus"].toInt();
-            //                            string felhasznaloNev = elem["felhasznaloNev"].toString().toStdString();;
-            //                            string jelszo = elem["jelszo"].toString().toStdString();
-            //                            string emailCim = elem["emailCim"].toString().toStdString();
-            //                            bool elofizeto = elem["elofizeto"].toBool();
-            //                            string bankszamlaSzam = elem["bankszamlaSzam"].toString().toStdString();
-
-            //                            elofizetok.push_back(new Elofizeto(SzID, tipus, jelszo, emailCim, elofizeto, bankszamlaSzam));
-            //                        }
-
+            vas.close();
+            elo.close();
+            seg.close();
+            adm.close();
         }else cout << "error with json files" << endl;
     }
     else cout << "File(s) Missing!" << endl;

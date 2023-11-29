@@ -112,7 +112,7 @@ void Mukodteto::hibaListakBeolvas()
         if(hib.open(QIODevice::ReadOnly | QIODevice::Text))
         {
 
-            QJsonArray hibakJson = QJsonDocument::fromJson(hib.readAll()).object()["felhasznalok"].toArray();
+            QJsonArray hibakJson = QJsonDocument::fromJson(hib.readAll()).object()["hibak"].toArray();
 
             for(auto item : hibakJson)
             {
@@ -131,7 +131,7 @@ void Mukodteto::hibaListakBeolvas()
                 }
                 else cout << "Nem ismert hiba tipus!" << endl;
             }
-
+            hib.close();
         }else cout << "JSon hiba!" << endl;
     }else cout << "File(ok) hianyoznak!" << endl;
 }
@@ -164,6 +164,8 @@ void Mukodteto::felhasznalokBeolvas()
                 int elofizetesID = elem["elofizetesID"].toInt();
                 felhasznalok.push_back(new Elofizeto(SzID, jelszo, emailCim, bankszamlaSzam, elofizetesID));
             }
+            vas.close();
+            elo.close();
         }else cout << "error with json files" << endl;
     }else cout << "File(s) Missing!" << endl;
 }
@@ -252,6 +254,7 @@ void Mukodteto::hibaListaTorlese()
             {
                 tranzakciosHibakLista.erase(itT);
             }
+            itT++;
         }
         break;
     case 2:
@@ -261,6 +264,7 @@ void Mukodteto::hibaListaTorlese()
             {
                 tranzakciosHibakLista.erase(itP);
             }
+            itP++;
         }
         break;
     case 3:
@@ -270,6 +274,7 @@ void Mukodteto::hibaListaTorlese()
             {
                 tranzakciosHibakLista.erase(itT);
             }
+            itT++;
         }
         while(itP != tranzakciosHibakLista.end())
         {
@@ -277,6 +282,7 @@ void Mukodteto::hibaListaTorlese()
             {
                 tranzakciosHibakLista.erase(itP);
             }
+            itP++;
         }
         break;
     default:
