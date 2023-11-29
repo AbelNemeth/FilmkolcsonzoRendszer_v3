@@ -12,9 +12,9 @@ public:
 
     void menu();
 
-    void ujFilmHozzaadasa(Film film);
-    void filmAdatokModositasa(string id);
-    void elofizetesArModositasa(int ar);
+    void ujFilmHozzaadasa();
+    void filmAdatokModositasa();
+    void elofizetesArModositasa();
 };
 
 #endif // ADMINISTRATOR_H

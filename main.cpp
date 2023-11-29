@@ -14,6 +14,8 @@ using namespace std;
 void belepes();
 void regisztracio();
 
+
+
 int main()
 {
     cout << "Program starting... " << endl;

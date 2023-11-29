@@ -9,6 +9,7 @@ private:
     int elofizetesID;
 public:
     Elofizeto(string _szID);
+    Elofizeto(string _szID, string _jelszo,string _emailCim,int _bankszamlaSzam,int _elofizetesID);
     Elofizeto();
 
     void menu();
@@ -16,6 +17,7 @@ public:
     void ElofizetesMegtekintese();
     void elofizetesLemondasa();
     void filmekListazasa();
+    int getElofizetesID() const;
 };
 
 #endif // ELOFIZETO_H

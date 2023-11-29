@@ -9,6 +9,7 @@ class Vasarlo : public Felhasznalo
     list<Film> sajatFilmek;
 public:
     Vasarlo(string _szID);
+    Vasarlo(string _szID, string _jelszo,string _emailCim,int _bankszamlaSzam);
     Vasarlo();
     void menu();
 

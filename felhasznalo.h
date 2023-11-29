@@ -15,9 +15,10 @@ private:
     string jelszo;
     string emailCim;
     bool elofizeto;
-    string bankszamlaSzam;
+    int bankszamlaSzam;
 public:
     Felhasznalo(string _szID);
+    Felhasznalo(string _szID, string _jelszo,string _emailCim,int _bankszamlaSzam);
 
     void problemaJelentes();
     void filmLejatszasa();
@@ -29,9 +30,12 @@ public:
     //getters and setters
     string getSzID() const;
     string getEmailCim() const;
-    string getBankszamlaSzam() const;
-    void setBankszamlaSzam(const string &newBankszamlaSzam);
+    int getBankszamlaSzam() const;
+    string getJelszo() const;
+    void setBankszamlaSzam(const int &newBankszamlaSzam);
     void setEmailCim(const string &newEmailCim);
+    void setSzID(const string &newSzID);
+
 };
 
 #endif // FELHASZNALO_H
