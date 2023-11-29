@@ -354,7 +354,7 @@ void Mukodteto::kilepes()
     QFile fileE("hibak.json");
     if (fileE.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream out(&fileE);
-        out << docV.toJson();
+        out << docE.toJson();
         fileE.close();
         cout << "JSON array saved to hibak.json";
     }else cout << "Hiba a hiba lista mentesekor" << endl;
