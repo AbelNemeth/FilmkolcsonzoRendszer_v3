@@ -1,5 +1,6 @@
 #include "segito.h"
-
+#include "elofizeto.h"
+#include <time.h>
 Segito::Segito(string _szID):
     Mukodteto(_szID)
 {
@@ -54,3 +55,32 @@ void Segito::menu()
         }
     }
 }
+
+void Segito::problemakKezelese()
+{
+    cout << "Handling problems" << endl;
+}
+
+void Segito::elofizetesEllenorzese()
+{
+    cout << "Adjon meg egy felhasznalot" << endl;
+    string id;
+    cin >> id;
+    bool vanIlyen = false;
+    for(auto& item : felhasznalok)
+    {
+        if(item->getSzID() == id)
+        {
+            vanIlyen = true;
+            if(Elofizeto* elofizeto = dynamic_cast<Elofizeto*>(item))
+            {
+                if(elofizeto.)
+            }
+        }
+    }
+}
+
+
+
+
+

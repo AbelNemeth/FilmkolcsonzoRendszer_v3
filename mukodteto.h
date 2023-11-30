@@ -21,6 +21,7 @@ private:
     string jelszo;
     vector<Hiba> problemakLista;
     vector<Hiba> tranzakciosHibakLista;
+protected:
     list<Felhasznalo*> felhasznalok;
 public:
     Mukodteto(string _szID);

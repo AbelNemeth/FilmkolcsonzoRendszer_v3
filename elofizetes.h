@@ -3,7 +3,7 @@
 
 
 #include <time.h>
-using namespace std;
+//using namespace std;
 
 class Elofizetes
 {
@@ -18,6 +18,8 @@ public:
     time_t getElofizetesMegkezdese() const;
     static int getElofizetesAra();
     static void setElofizetesAra(int newElofizetesAra);
+
+    int getHatralevoNapok();
 };
 
 #endif // ELOFIZETES_H
