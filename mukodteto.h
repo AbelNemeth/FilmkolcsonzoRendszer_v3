@@ -5,6 +5,7 @@
 #include <vector>
 #include "felhasznalo.h"
 #include "hiba.h"
+#include "elofizetes.h"
 #include <iostream>
 
 #include <QJsonObject> //json objektum létrehozására
@@ -23,11 +24,13 @@ private:
     vector<Hiba> tranzakciosHibakLista;
 protected:
     list<Felhasznalo*> felhasznalok;
+    list<Elofizetes*> elofizetesek;
 public:
     Mukodteto(string _szID);
 
     virtual void menu() = 0;
 
+    virtual void adatokListazasa();
     void felhasznaloiAdatokModositasa();
     void felhaszanloIDModositasa();
     void felhaszanloEmailCimModositasa();
@@ -35,6 +38,7 @@ public:
 
     void hibaListakBeolvas();
     void felhasznalokBeolvas();
+    void elofizetesekBeolvas();
 
     void tranzakciosHibakKiir();
     void problemakListaKiir();

@@ -1,12 +1,13 @@
-[
-    {
-        "elofizetesID": "1",
-        "elofizetesAra": "500",
-        "elofizetesMegkezdese": "1701298614"
-    },
-    {
-        "elofizetesID": "2",
-        "elofizetesAra": "500",
-        "elofizetesMegkezdese": "1694296800"
-    }
-]
+{
+    "elofizetesek":
+    [
+        {
+            "elofizetesTipus": "1",
+            "elofizetesAra": "500"
+        },
+        {
+            "elofizetesTipus": "2",
+            "elofizetesAra": "600"
+        }
+    ]
+}

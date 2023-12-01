@@ -9,6 +9,32 @@ Mukodteto::Mukodteto(string _szID):
     hibaListakBeolvas();
 }
 
+void Mukodteto::adatokListazasa()
+{
+    cout << "Felhasznalok listazasa: " << endl;
+    for(auto item : felhasznalok)
+    {
+        cout << "SzID: " << item->getSzID() << " emailCim: " << item->getEmailCim() << " bankszamlaSzam: " << item->getBankszamlaSzam();
+        if(Vasarlo* vasarlo = dynamic_cast<Vasarlo*>(item))
+        {
+            cout << " filmek: ";
+            for(const auto &item2 : vasarlo->getSajatFilmek())
+            {
+                cout << item2->getFilmID() << " " << endl;
+            }
+        }
+        else if(Elofizeto* elofizeto = dynamic_cast<Elofizeto*>(item))
+        {
+            cout << "Elofizetes tipusa: " << elofizeto->getElofizetesID() << "Elofizetesbol hatralevo ido: " << elofizeto->getHatralevoNapok() << " nap" << endl;
+        }
+    }
+    cout << "Elofizetesek listazasa: " << endl;
+    for(auto item : elofizetesek)
+    {
+        cout << "Elofizetestipus azonosito: " << item->getElofizetesID() << " Ar: " << item->getElofizetesAra() << endl;
+    }
+}
+
 void Mukodteto::felhasznaloiAdatokModositasa()
 {
     cout << "Milyen tipusu adatot szeretne modositani?" << endl;
@@ -118,15 +144,14 @@ void Mukodteto::hibaListakBeolvas()
             {
                 auto elem = item.toObject();
 
+                Hiba hiba = *new Hiba(elem["ID"].toInt(), elem["SzID"].toString().toStdString(),elem["leiras"].toString().toStdString());
                 if(elem["tipus"].toString().toStdString() == "tranzakcios")
                 {
-                    Hiba hiba = *new Hiba(elem["ID"].toInt(), elem["SzID"].toString().toStdString(),elem["leiras"].toString().toStdString());
                     tranzakciosHibakLista.push_back(hiba);
                 }
 
                 if(elem["tipus"].toString().toStdString() == "bejelentett")
                 {
-                    Hiba hiba = *new Hiba(elem["ID"].toInt(), elem["SzID"].toString().toStdString(),elem["leiras"].toString().toStdString());
                     problemakLista.push_back(hiba);
                 }
                 else cout << "Nem ismert hiba tipus!" << endl;
@@ -152,7 +177,27 @@ void Mukodteto::felhasznalokBeolvas()
                 string jelszo = elem["jelszo"].toString().toStdString();
                 string emailCim = elem["emailCim"].toString().toStdString();
                 int bankszamlaSzam = elem["bankszamlaSzam"].toInt();
-                felhasznalok.push_back(new Vasarlo(SzID, jelszo, emailCim, bankszamlaSzam));
+                Vasarlo* vasarlo =new Vasarlo(SzID, jelszo, emailCim, bankszamlaSzam);
+
+                string inputString = elem["filmLista"].toString().toStdString();
+                // Vector to store the substrings
+                std::vector<std::string> substrings;
+
+                // Use std::istringstream to split the string
+                std::istringstream ss(inputString);
+                std::string token;
+
+                while (std::getline(ss, token, ';'))
+                {
+                    substrings.push_back(token);
+                }
+
+                for(auto& item : substrings)
+                {
+                    vasarlo->filmHozzaad(item);
+                }
+
+                felhasznalok.push_back(vasarlo);
             }
             for(auto item : elofizetokJson)
             {
@@ -162,12 +207,34 @@ void Mukodteto::felhasznalokBeolvas()
                 string emailCim = elem["emailCim"].toString().toStdString();
                 int bankszamlaSzam = elem["bankszamlaSzam"].toInt();
                 int elofizetesID = elem["elofizetesID"].toInt();
-                felhasznalok.push_back(new Elofizeto(SzID, jelszo, emailCim, bankszamlaSzam, elofizetesID));
+                time_t elofizetesMegkezdese = elem["elofizetesMegkezdese"].toInt();
+                felhasznalok.push_back(new Elofizeto(SzID, jelszo, emailCim, bankszamlaSzam, elofizetesID, elofizetesMegkezdese));
             }
             vas.close();
             elo.close();
         }else cout << "error with json files" << endl;
     }else cout << "File(s) Missing!" << endl;
+}
+
+void Mukodteto::elofizetesekBeolvas()
+{
+    QFile elo("elofizetesek.json");
+
+    if(elo.exists())
+    {
+        if(elo.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+
+            QJsonArray elofizetesekJson = QJsonDocument::fromJson(elo.readAll()).object()["elofizetesek"].toArray();
+
+            for(auto item : elofizetesekJson)
+            {
+                auto elem = item.toObject();
+                elofizetesek.push_back(new Elofizetes(elem["elofizetesTipus"].toInt(),elem["elofizetesAra"].toInt()));
+            }
+            elo.close();
+        }else cout << "JSon hiba!" << endl;
+    }else cout << "File(ok) hianyoznak!" << endl;
 }
 
 void Mukodteto::tranzakciosHibakKiir()
@@ -297,21 +364,27 @@ void Mukodteto::kilepes()
     QJsonArray hibakLista;
     for(auto& item : tranzakciosHibakLista)
     {
-        QJsonObject hiba;
-        hiba["ID"] = item.getId();
-        hiba["SzID"] = QString::fromStdString(item.getSzID());
-        hiba["tipus"] = "tranzakcios";
-        hiba["leiras"] = QString::fromStdString(item.getLeiras());
-        hibakLista.push_back(hiba);
+        if(item.getActiv())
+        {
+            QJsonObject hiba;
+            hiba["ID"] = item.getId();
+            hiba["SzID"] = QString::fromStdString(item.getSzID());
+            hiba["tipus"] = "tranzakcios";
+            hiba["leiras"] = QString::fromStdString(item.getLeiras());
+            hibakLista.push_back(hiba);
+        }
     }
     for(auto& item : problemakLista)
     {
-        QJsonObject hiba;
-        hiba["ID"] = item.getId();
-        hiba["SzID"] = QString::fromStdString(item.getSzID());
-        hiba["tipus"] = "bejelentett";
-        hiba["leiras"] = QString::fromStdString(item.getLeiras());
-        hibakLista.push_back(hiba);
+        if(item.getActiv())
+        {
+            QJsonObject hiba;
+            hiba["ID"] = item.getId();
+            hiba["SzID"] = QString::fromStdString(item.getSzID());
+            hiba["tipus"] = "bejelentett";
+            hiba["leiras"] = QString::fromStdString(item.getLeiras());
+            hibakLista.push_back(hiba);
+        }
     }
     QJsonDocument docH(hibakLista);
     QFile fileH("hibak.json");
@@ -333,6 +406,15 @@ void Mukodteto::kilepes()
             v["jelszo"] = QString::fromStdString(vasarlo->getJelszo());
             v["emailCim"] = QString::fromStdString(vasarlo->getEmailCim());
             v["bankszamlaSzam"] = vasarlo->getBankszamlaSzam();
+
+            ostringstream outputStringStream;
+            for(auto item2 : vasarlo->getSajatFilmek())
+            {
+                outputStringStream << item2->getFilmID() << ";";
+            }
+            string outputString = outputStringStream.str();
+            v["filmLista"] = QString::fromStdString(outputString);
+
             vasarlokLista.push_back(v);
         }
         else if(Elofizeto* elofizeto = dynamic_cast<Elofizeto*>(item))
@@ -348,7 +430,7 @@ void Mukodteto::kilepes()
     }
     //vasarlok ment
     QJsonDocument docV(vasarlokLista);
-    QFile fileV("hibak.json");
+    QFile fileV("vasarlok.json");
     if (fileV.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream out(&fileV);
         out << docV.toJson();
@@ -357,7 +439,7 @@ void Mukodteto::kilepes()
     }else cout << "Hiba a hiba lista mentesekor" << endl;
     //elofizetok ment
     QJsonDocument docE(elofizetokLista);
-    QFile fileE("hibak.json");
+    QFile fileE("elofizetok.json");
     if (fileE.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream out(&fileE);
         out << docE.toJson();

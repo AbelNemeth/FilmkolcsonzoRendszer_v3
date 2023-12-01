@@ -1,15 +1,19 @@
-
-[
-    {
-        "SzID": "john_snow",
-        "jelszo": "pass",
-        "emailCim": "johnsnow@email.com",
-        "bankszamlaSzam": "1234"
-    },
-    {
-        "SzID": "bob_marley",
-        "jelszo": "pass",
-        "emailCim": "bobmarley@email.com",
-        "bankszamlaSzam": "5678"
-    }
-]
+{
+    "vasarlok":
+    [
+        {
+            "SzID": "john_snow",
+            "jelszo": "pass",
+            "emailCim": "johnsnow@email.com",
+            "bankszamlaSzam": "1234",
+            "filmLista": "SW1"
+        },
+        {
+            "SzID": "bob_marley",
+            "jelszo": "pass",
+            "emailCim": "bobmarley@email.com",
+            "bankszamlaSzam": "5678",
+            "filmLista": "SW2;SW3"
+        }
+    ]
+}

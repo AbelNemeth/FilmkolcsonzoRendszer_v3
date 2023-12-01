@@ -1,8 +1,10 @@
-[
-    {
-        "ID": "1",
-        "SzID": "john_snow",
-        "tipus": "tranzakcios",
-        "leiras": "nincs eleg penz az adott szamlan."
-    }
-]
+{"hibak":
+    [
+        {
+            "ID": "1",
+            "SzID": "john_snow",
+            "tipus": "tranzakcios",
+            "leiras": "nincs eleg penz az adott szamlan."
+        }
+    ]
+}

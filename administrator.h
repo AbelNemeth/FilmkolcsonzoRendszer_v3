@@ -12,6 +12,7 @@ public:
     Administrator();
 
     void menu();
+    void adatokListazasa();
 
     void filmekBetolt();
 

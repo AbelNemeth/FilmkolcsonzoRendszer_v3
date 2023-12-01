@@ -1,11 +1,12 @@
 #include "administrator.h"
 
-#include <Elofizetes.h>
-
 Administrator::Administrator(string _szID):
     Mukodteto(_szID)
 {
-
+    filmekBetolt();
+    hibaListakBeolvas();
+    felhasznalokBeolvas();
+    elofizetesekBeolvas();
 }
 
 Administrator::Administrator():
@@ -19,14 +20,15 @@ void Administrator::menu()
     bool bejelentkezve = true;
     while(bejelentkezve)
     {
-        cout << "1. Trazakcios hibak listazasa" << endl;
-        cout << "2. Bejelentett hibak listazasa" << endl;
-        cout << "3. Hiba modositasa" << endl;
-        cout << "4. Befejezett hibak torlese" << endl;
-        cout << "5. Felhasznaloi adatok modositasa" << endl;
-        cout << "6. Uj Film Hozzadadasa" << endl;
-        cout << "7. Egy film adatainak modositasa" << endl;
-        cout << "8. Elofizetes aranak megvaltoztatasa" << endl;
+        cout << "1. Adatok listazasa" << endl;
+        cout << "2. Trazakcios hibak listazasa" << endl;
+        cout << "3. Bejelentett hibak listazasa" << endl;
+        cout << "4. Hiba modositasa" << endl;
+        cout << "5. Befejezett hibak torlese" << endl;
+        cout << "6. Felhasznaloi adatok modositasa" << endl;
+        cout << "7. Uj Film Hozzadadasa" << endl;
+        cout << "8. Egy film adatainak modositasa" << endl;
+        cout << "9. Elofizetes aranak megvaltoztatasa" << endl;
         cout << "0. Kijelentkezes" << endl;
 
         int bemenet;
@@ -34,27 +36,30 @@ void Administrator::menu()
 
         switch (bemenet) {
         case 1:
-            tranzakciosHibakKiir();
+            adatokListazasa();
             break;
         case 2:
-            problemakListaKiir();
+            tranzakciosHibakKiir();
             break;
         case 3:
-            hibaAllapotModositasa();
+            problemakListaKiir();
             break;
         case 4:
-            hibaListaTorlese();
+            hibaAllapotModositasa();
             break;
         case 5:
-            felhasznaloiAdatokModositasa();
+            hibaListaTorlese();
             break;
         case 6:
-            ujFilmHozzaadasa(); //admin
+            felhasznaloiAdatokModositasa();
             break;
         case 7:
-            filmAdatokModositasa(); //admin
+            ujFilmHozzaadasa(); //admin
             break;
         case 8:
+            filmAdatokModositasa(); //admin
+            break;
+        case 9:
             elofizetesArModositasa(); //admin
             break;
         case 0:
@@ -63,6 +68,16 @@ void Administrator::menu()
         default:
             break;
         }
+    }
+    kilepes();
+}
+
+void Administrator::adatokListazasa()
+{
+    Mukodteto::adatokListazasa();
+    for(auto item : filmek)
+    {
+        cout << "ID: " << item->getFilmID() << " Cim: " << item->getCim() << " Ar: " << item->getAr() << endl;
     }
 }
 
@@ -183,13 +198,26 @@ void Administrator::filmAdatokModositasa()
 
 void Administrator::elofizetesArModositasa()
 {
-    int ar = 0;
-    cout << "Adja meg az uj arat! (vagy 0-t a visszlepeshez)" << endl;
-    cin >> ar;
-    if(ar != 0)
+    int id;
+    cout << "Adjon meg az elofizetes azonositojat (vagy 0-t a visszlepeshez)" << endl;
+    cin >> id;
+    bool vanIlyen = false;
+    if(id!=0)
     {
-        Elofizetes::setElofizetesAra(ar);
+        for(auto& item : elofizetesek)
+        {
+            if(item->getElofizetesID()==id)
+            {
+                vanIlyen = true;
+                int ar = 0;
+                cout << "Adja meg az uj arat! (vagy 0-t a visszlepeshez)" << endl;
+                cin >> ar;
+                if(ar != 0) item->setElofizetesAra(ar);
+            }
+        }
     }
+    if(!vanIlyen) cout << "Nincs ilyen id" << endl;
+
 }
 
 void Administrator::kilepes()

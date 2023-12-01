@@ -7,12 +7,12 @@
 
 class Segito : public Mukodteto
 {
-    list<Elofizetes> elofizetesek;
 public:
     Segito(string _szID);
     Segito();
 
     void menu();
+    void adatokListazasa();
 
     void problemakKezelese();
     void elofizetesEllenorzese(); // vissza adja hogy kiknek járt le az előfizetésük

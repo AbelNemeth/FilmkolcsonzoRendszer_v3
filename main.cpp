@@ -24,10 +24,11 @@ int main()
         cout << "1. Bejelentkezes" << endl;
         cout << "2. Regisztracio" << endl;
         int valasztas = 0;
+        cin >> valasztas;
         switch(valasztas)
         {
         case 1 :    belepes(); break;
-        case 2 :    regisztracio(); break;
+        //case 2 :    regisztracio(); break;
         default :   cout << "Nincs ilyen menu opcio" << endl; break;
         }
     }
@@ -40,7 +41,7 @@ void belepes()
     map<string, string> idEsJelszo;
 
     //getting the types and stuff
-    QFile vas("vasalok.json");
+    QFile vas("vasarlok.json");
     QFile elo("elofizetok.json");
     QFile seg("segitok.json");
     QFile adm("adminok.json");
@@ -98,32 +99,37 @@ void belepes()
         cout << "Hibas belepesi adatok" << endl;
     }
     else{
-        Vasarlo vasarlo;
-        Elofizeto elofizeto;
-        Segito segito;
-        Administrator admin;
+        Vasarlo* vasarlo;
+        Elofizeto* elofizeto;
+        Segito* segito;
+        Administrator* admin;
         switch (tipusIndex[id])
         {
         case 1:
-            vasarlo = *new Vasarlo(id);
-            vasarlo.menu();
+            vasarlo = new Vasarlo(id);
+            vasarlo->menu();
             break;
         case 2:
-            elofizeto = *new Elofizeto(id);
-            elofizeto.menu();
+            elofizeto = new Elofizeto(id);
+            elofizeto->menu();
             break;
         case 3:
-            segito = *new Segito(id);
-            segito.menu();
+            segito = new Segito(id);
+            segito->menu();
             break;
         case 4:
-            admin = *new Administrator(id);
-            admin.menu();
+            admin = new Administrator(id);
+            admin->menu();
             break;
         default:
             cout << "Nincs ilyen bejelentkezesi tipus opcio. Bejelentkezesben hiba lepett fel. Ertesitsen egy varázslót" << endl;
             break;
         }
     }
+
+}
+
+void registracio()
+{
 
 }

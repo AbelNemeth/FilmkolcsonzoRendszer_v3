@@ -2,24 +2,22 @@
 #define ELOFIZETES_H
 
 
-#include <time.h>
+
 //using namespace std;
 
 class Elofizetes
 {
     int elofizetesID;
-    static int elofizetesAra;
-    time_t elofizetesMegkezdese;
+    int elofizetesAra;
 public:
-    Elofizetes(int _elofizetesID, time_t _elofizetesMegkezdese);
+    Elofizetes(int _elofizetesID,int _elofizetesAra);
     Elofizetes() = default;
 
-    int getElofizetesID() const;
-    time_t getElofizetesMegkezdese() const;
-    static int getElofizetesAra();
-    static void setElofizetesAra(int newElofizetesAra);
+    void adatokMegtekintese();
 
-    int getHatralevoNapok();
+    int getElofizetesID() const;
+    int getElofizetesAra();
+    void setElofizetesAra(int newElofizetesAra);
 };
 
 #endif // ELOFIZETES_H
