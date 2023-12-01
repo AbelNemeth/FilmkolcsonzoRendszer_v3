@@ -4,17 +4,17 @@
         {
             "FID": "SW1",
             "cim": "Star Wars: The Phantom Menace",
-            "ar": 1500
+            "ar": "1500"
         },
         {
             "FID": "SW2",
             "cim": "Star Wars: Attack of the Clones",
-            "ar": 1500
+            "ar": "1500"
         },
         {
             "FID": "SW3",
             "cim": "Star Wars: Revenge of the Sith",
-            "ar": 2000
+            "ar": "2000"
         }
     ]
 }

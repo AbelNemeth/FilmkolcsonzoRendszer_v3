@@ -144,7 +144,7 @@ void Mukodteto::hibaListakBeolvas()
             {
                 auto elem = item.toObject();
 
-                Hiba hiba = *new Hiba(elem["ID"].toInt(), elem["SzID"].toString().toStdString(),elem["leiras"].toString().toStdString());
+                Hiba hiba = *new Hiba(elem["ID"].toString().toInt(), elem["SzID"].toString().toStdString(),elem["leiras"].toString().toStdString());
                 if(elem["tipus"].toString().toStdString() == "tranzakcios")
                 {
                     tranzakciosHibakLista.push_back(hiba);
@@ -176,7 +176,7 @@ void Mukodteto::felhasznalokBeolvas()
                 string SzID = elem["SzID"].toString().toStdString();
                 string jelszo = elem["jelszo"].toString().toStdString();
                 string emailCim = elem["emailCim"].toString().toStdString();
-                int bankszamlaSzam = elem["bankszamlaSzam"].toInt();
+                int bankszamlaSzam = elem["bankszamlaSzam"].toString().toInt();
                 Vasarlo* vasarlo =new Vasarlo(SzID, jelszo, emailCim, bankszamlaSzam);
 
                 string inputString = elem["filmLista"].toString().toStdString();
@@ -205,9 +205,9 @@ void Mukodteto::felhasznalokBeolvas()
                 string SzID = elem["SzID"].toString().toStdString();
                 string jelszo = elem["jelszo"].toString().toStdString();
                 string emailCim = elem["emailCim"].toString().toStdString();
-                int bankszamlaSzam = elem["bankszamlaSzam"].toInt();
-                int elofizetesID = elem["elofizetesID"].toInt();
-                time_t elofizetesMegkezdese = elem["elofizetesMegkezdese"].toInt();
+                int bankszamlaSzam = elem["bankszamlaSzam"].toString().toInt();
+                int elofizetesID = elem["elofizetesID"].toString().toInt();
+                time_t elofizetesMegkezdese = elem["elofizetesMegkezdese"].toString().toInt();
                 felhasznalok.push_back(new Elofizeto(SzID, jelszo, emailCim, bankszamlaSzam, elofizetesID, elofizetesMegkezdese));
             }
             vas.close();
@@ -229,7 +229,7 @@ void Mukodteto::elofizetesekBeolvas()
             for(auto item : elofizetesekJson)
             {
                 auto elem = item.toObject();
-                elofizetesek.push_back(new Elofizetes(elem["elofizetesTipus"].toInt(),elem["elofizetesAra"].toInt()));
+                elofizetesek.push_back(new Elofizetes(elem["elofizetesTipus"].toString().toInt(),elem["elofizetesAra"].toString().toInt()));
             }
             elo.close();
         }else cout << "JSon hiba!" << endl;
@@ -238,7 +238,7 @@ void Mukodteto::elofizetesekBeolvas()
 
 void Mukodteto::tranzakciosHibakKiir()
 {
-    cout << endl << "hibak listazasa..." << endl;
+    cout << endl << "hibak listazasa.." << endl;
 
     if(!tranzakciosHibakLista.empty())
     {
@@ -254,7 +254,7 @@ void Mukodteto::tranzakciosHibakKiir()
 
 void Mukodteto::problemakListaKiir()
 {
-    cout << endl << "hibak listazasa..." << endl;
+    cout << endl << "hibak listazasa.." << endl;
 
     if(!tranzakciosHibakLista.empty())
     {

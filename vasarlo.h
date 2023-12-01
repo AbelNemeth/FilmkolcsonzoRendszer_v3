@@ -14,7 +14,7 @@ public:
     Vasarlo();
 
     void menu();
-    void SajatAdatokBetolt();
+    void sajatAdatokBetolt();
 
     void adatokMegtekintese();
 

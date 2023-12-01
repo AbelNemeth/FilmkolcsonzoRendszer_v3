@@ -1,13 +1,14 @@
+#include "vasarlo.h"
 #include "elofizeto.h"
 #include "segito.h"
-#include "vasarlo.h"
+#include "administrator.h"
+
 #include <iostream>
 
 #include <QJsonObject> //json objektum létrehozására
 #include <QJsonArray> //json lista
 #include <QFile> //json file nyitás, olvasás stb.
 #include <QJsonDocument> //itt tudunk átalakításokat csinálni, vagy valami ilyesmi
-#include <Administrator.h>
 
 using namespace std;
 
@@ -31,7 +32,7 @@ int main()
         switch(valasztas)
         {
         case 1 :    belepes(); break;
-        //case 2 :    regisztracio(); break;
+        case 2 :    regisztracio(); break;
         default :   cout << "Nincs ilyen menu opcio" << endl; break;
         }
     }
@@ -131,7 +132,7 @@ void belepes()
 
 }
 
-void registracio()
+void regisztracio()
 {
     string bemenet;
     cout << "Adjon meg egy felhasznalonevet! (a kilepeshez irja be hogy 0)" << endl;

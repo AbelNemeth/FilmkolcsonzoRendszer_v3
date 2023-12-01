@@ -48,7 +48,7 @@ Elofizeto::Elofizeto():
 
 void Elofizeto::menu()
 {
-    SajatAdatokBetolt();
+    this->sajatAdatokBetolt();
     bool aktiv = true;
     while(aktiv)
     {
@@ -92,22 +92,26 @@ void Elofizeto::menu()
     }
 }
 
-void Elofizeto::SajatAdatokBetolt()
+void Elofizeto::sajatAdatokBetolt()
 {
+    cout << "loading files..." << endl;
     QFile elo("elofizetok.json");
     if(elo.exists()){
         if(elo.open(QIODevice::ReadOnly | QIODevice::Text)){
-            QJsonArray elofizetokJson = QJsonDocument::fromJson(elo.readAll()).object()["felhasznalok"].toArray();
+            QJsonArray elofizetokJson = QJsonDocument::fromJson(elo.readAll()).object()["elofizetok"].toArray();
+
             for(auto item : elofizetokJson)
             {
                 auto elem = item.toObject();
-                if(elem["SzID"].toString().toStdString() == szID)
+                string id = elem["SzID"].toString().toStdString();
+                if(id == szID)
                 {
                     jelszo = elem["jelszo"].toString().toStdString();
                     emailCim = elem["emailCim"].toString().toStdString();
-                    bankszamlaSzam = elem["bankszamlaSzam"].toInt();
-                    elofizetesID = elem["elofizetesID"].toInt();
-                    elofizetesMegkezdese = elem["elofizetesMegkezdese"].toInt();
+                    bankszamlaSzam = elem["bankszamlaSzam"].toString().toInt();
+                    elofizetesID = elem["elofizetesID"].toString().toInt();
+                    elofizetesMegkezdese = elem["elofizetesMegkezdese"].toString().toInt();
+
                 }
             }
             elo.close();
@@ -118,12 +122,12 @@ void Elofizeto::SajatAdatokBetolt()
 void Elofizeto::adatokMegtekintese()
 {
     Felhasznalo::adatokMegtekintese();
-    cout << "Tipus: Elofizeto" << endl;
+    cout << " Tipus: Elofizeto" << endl;
 }
 
 void Elofizeto::elofizetesMegtekintese()
 {
-    Elofizetes* elofizetes = nullptr;
+    //Elofizetes* elofizetes = nullptr;
     QFile elo("elofizetesek.json");
 
     if(elo.exists())
@@ -134,17 +138,18 @@ void Elofizeto::elofizetesMegtekintese()
             for(auto item : elofizetesekJson)
             {
                 auto elem = item.toObject();
-                if(elem["elofizetesTipus"].toInt() == this->getElofizetesID())
+                int id = elem["elofizetesTipus"].toString().toInt();
+                if(id == this->getElofizetesID())
                 {
-                    elofizetes = new Elofizetes(elem["elofizetesTipus"].toInt(),elem["elofizetesAra"].toInt());
-                    //cout << "Elofizetesi statusz: Elofizeto Elofizetes ara: " << elem["elofizetesTipus"].toInt() << " Elofizetesbol hatralevo napok: " << elem["elofizetesAra"].toInt() << endl;
+                    //elofizetes = new Elofizetes(elem["elofizetesTipus"].toString().toInt(),elem["elofizetesAra"].toString().toInt());
+                    cout << "Elofizetesi statusz: Elofizeto Elofizetes ara: " << elem["elofizetesTipus"].toString().toInt() << " Elofizetesbol hatralevo napok: " << elem["elofizetesAra"].toString().toInt() << endl;
                 }
             }
             elo.close();
         }else cout << "JSon hiba!" << endl;
     }else cout << "File(ok) hianyoznak!" << endl;
 
-    if(elofizetes != nullptr)cout << "Elofizetesi statusz: Elofizeto Elofizetes ara: " << elofizetes->getElofizetesAra() << " Elofizetesbol hatralevo napok: " << this->getHatralevoNapok() << endl;
+    //if(elofizetes != nullptr)cout << "Elofizetesi statusz: Elofizeto Elofizetes ara: " << elofizetes->getElofizetesAra() << " Elofizetesbol hatralevo napok: " << this->getHatralevoNapok() << endl;
 }
 
 Vasarlo *Elofizeto::elofizetesLemondasa()
@@ -174,7 +179,7 @@ bool Elofizeto::elofizetesLemondasMegkezdese()
                     string SzID = elem["SzID"].toString().toStdString();
                     string jelszo = elem["jelszo"].toString().toStdString();
                     string emailCim = elem["emailCim"].toString().toStdString();
-                    int bankszamlaSzam = elem["bankszamlaSzam"].toInt();
+                    int bankszamlaSzam = elem["bankszamlaSzam"].toString().toInt();
                     Vasarlo* vasarlo =new Vasarlo(SzID, jelszo, emailCim, bankszamlaSzam);
 
                     string inputString = elem["filmLista"].toString().toStdString();
@@ -203,9 +208,9 @@ bool Elofizeto::elofizetesLemondasMegkezdese()
                     string SzID = elem["SzID"].toString().toStdString();
                     string jelszo = elem["jelszo"].toString().toStdString();
                     string emailCim = elem["emailCim"].toString().toStdString();
-                    int bankszamlaSzam = elem["bankszamlaSzam"].toInt();
-                    int elofizetesID = elem["elofizetesID"].toInt();
-                    time_t elofizetesMegkezdese = elem["elofizetesMegkezdese"].toInt();
+                    int bankszamlaSzam = elem["bankszamlaSzam"].toString().toInt();
+                    int elofizetesID = elem["elofizetesID"].toString().toInt();
+                    time_t elofizetesMegkezdese = elem["elofizetesMegkezdese"].toString().toInt();
                     elofizetok.push_back(new Elofizeto(SzID, jelszo, emailCim, bankszamlaSzam, elofizetesID, elofizetesMegkezdese));
                 }
                 vas.close();
@@ -289,9 +294,9 @@ void Elofizeto::filmekListazasa()
             for(auto item : filmekJson)
             {
                 auto elem = item.toObject();
-                cout << "\t" << elem["FID"].toString().toStdString() << "\t" << elem["cim"].toString().toStdString() << "\t" << elem["ar"].toInt() << endl;
+                cout << "\t" << elem["FID"].toString().toStdString() << "\t" << elem["cim"].toString().toStdString() << "\t" << elem["ar"].toString().toInt() << endl;
 
-                Film* film = new Film(elem["FID"].toString().toStdString(), elem["cim"].toString().toStdString(),elem["ar"].toInt());
+                Film* film = new Film(elem["FID"].toString().toStdString(), elem["cim"].toString().toStdString(),elem["ar"].toString().toInt());
                 filmek.push_back(film);
             }
             file.close();

@@ -27,7 +27,7 @@ Vasarlo::Vasarlo():
 
 void Vasarlo::menu()
 {
-    SajatAdatokBetolt();
+    sajatAdatokBetolt();
     bool aktiv = true;
     while(aktiv)
     {
@@ -71,7 +71,7 @@ void Vasarlo::menu()
     }
 }
 
-void Vasarlo::SajatAdatokBetolt()
+void Vasarlo::sajatAdatokBetolt()
 {
     QFile vas("vasalok.json");
     if(vas.exists()){
@@ -84,7 +84,7 @@ void Vasarlo::SajatAdatokBetolt()
                 {
                     jelszo = elem["jelszo"].toString().toStdString();
                     emailCim = elem["emailCim"].toString().toStdString();
-                    bankszamlaSzam = elem["bankszamlaSzam"].toInt();
+                    bankszamlaSzam = elem["bankszamlaSzam"].toString().toInt();
 
                     string inputString = elem["filmLista"].toString().toStdString();
                     // Vector to store the substrings
@@ -144,7 +144,7 @@ bool Vasarlo::elofizetesVasarlasa()
                         string SzID = elem["SzID"].toString().toStdString();
                         string jelszo = elem["jelszo"].toString().toStdString();
                         string emailCim = elem["emailCim"].toString().toStdString();
-                        int bankszamlaSzam = elem["bankszamlaSzam"].toInt();
+                        int bankszamlaSzam = elem["bankszamlaSzam"].toString().toInt();
                         Vasarlo* vasarlo =new Vasarlo(SzID, jelszo, emailCim, bankszamlaSzam);
 
                         string inputString = elem["filmLista"].toString().toStdString();
@@ -173,9 +173,9 @@ bool Vasarlo::elofizetesVasarlasa()
                         string SzID = elem["SzID"].toString().toStdString();
                         string jelszo = elem["jelszo"].toString().toStdString();
                         string emailCim = elem["emailCim"].toString().toStdString();
-                        int bankszamlaSzam = elem["bankszamlaSzam"].toInt();
-                        int elofizetesID = elem["elofizetesID"].toInt();
-                        time_t elofizetesMegkezdese = elem["elofizetesMegkezdese"].toInt();
+                        int bankszamlaSzam = elem["bankszamlaSzam"].toString().toInt();
+                        int elofizetesID = elem["elofizetesID"].toString().toInt();
+                        time_t elofizetesMegkezdese = elem["elofizetesMegkezdese"].toString().toInt();
                         elofizetok.push_back(new Elofizeto(SzID, jelszo, emailCim, bankszamlaSzam, elofizetesID, elofizetesMegkezdese));
                     }
                     vas.close();
@@ -268,7 +268,7 @@ bool Vasarlo::filmHozzaad(string filmID)
                 auto elem = item.toObject();
                 if(elem["FID"].toString().toStdString() == filmID)
                 {
-                    Film* film = new Film(elem["FID"].toString().toStdString(), elem["cim"].toString().toStdString(),elem["ar"].toInt());
+                    Film* film = new Film(elem["FID"].toString().toStdString(), elem["cim"].toString().toStdString(),elem["ar"].toString().toInt());
                     sajatFilmek.push_back(film);
                     sikerult = true;
                 }
@@ -336,7 +336,7 @@ void Vasarlo::vasarolhatoFilmekListaz()
                 {
                     if(elem["FID"].toString().toStdString() == item2->getFilmID())
                     {
-                        cout << "\t" << elem["FID"].toString().toStdString() << "\t" << elem["cim"].toString().toStdString() << "\t" << elem["ar"].toInt() << endl;
+                        cout << "\t" << elem["FID"].toString().toStdString() << "\t" << elem["cim"].toString().toStdString() << "\t" << elem["ar"].toString().toInt() << endl;
                     }
                 }
 

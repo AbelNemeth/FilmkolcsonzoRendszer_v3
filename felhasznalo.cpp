@@ -50,7 +50,7 @@ void Felhasznalo::problemaJelentese(string jelentes, string tipus)
                 {
                     auto elem = item.toObject();
 
-                    Hiba hiba = *new Hiba(elem["ID"].toInt(), elem["SzID"].toString().toStdString(),elem["leiras"].toString().toStdString());
+                    Hiba hiba = *new Hiba(elem["ID"].toString().toInt(), elem["SzID"].toString().toStdString(),elem["leiras"].toString().toStdString());
                     hibak.push_back(hiba);
                 }
                 hib.close();
@@ -91,7 +91,7 @@ void Felhasznalo::problemaJelentese(string jelentes, string tipus)
 
 void Felhasznalo::filmLejatszasa(Film *film)
 {
-    cout << "Film jatszasa... (" << film->getCim() << ")" << endl;
+    cout << "Film jatszasa.. (" << film->getCim() << ")" << endl;
 }
 
 void Felhasznalo::adatokMegtekintese()

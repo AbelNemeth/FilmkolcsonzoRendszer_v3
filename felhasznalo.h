@@ -28,7 +28,7 @@ public:
     virtual void adatokMegtekintese();
 
     virtual void menu() = 0;
-    virtual void SajatAdatokBetolt() = 0;
+    virtual void sajatAdatokBetolt() = 0;
 
     //getters and setters
     string getSzID() const;

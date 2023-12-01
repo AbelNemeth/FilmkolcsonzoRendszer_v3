@@ -94,7 +94,7 @@ void Administrator::filmekBetolt()
             {
                 auto elem = item.toObject();
 
-                Film* film = new Film(elem["FID"].toString().toStdString(), elem["cim"].toString().toStdString(),elem["ar"].toInt());
+                Film* film = new Film(elem["FID"].toString().toStdString(), elem["cim"].toString().toStdString(), elem["ar"].toString().toInt());
                 filmek.push_back(film);
             }
             file.close();
