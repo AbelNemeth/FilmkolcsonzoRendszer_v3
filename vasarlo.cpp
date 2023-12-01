@@ -228,7 +228,7 @@ bool Vasarlo::elofizetesVasarlasa()
                 QTextStream out(&fileV);
                 out << docV.toJson();
                 fileV.close();
-                cout << "JSON array saved to hibak.json";
+                cout << "JSON array saved to vasarlok.json";
             }else cout << "Hiba a hiba lista mentesekor" << endl;
             //elofizetok ment
             QJsonDocument docE(elofizetokLista);
@@ -237,7 +237,7 @@ bool Vasarlo::elofizetesVasarlasa()
                 QTextStream out(&fileE);
                 out << docE.toJson();
                 fileE.close();
-                cout << "JSON array saved to hibak.json";
+                cout << "JSON array saved to elofizetok.json";
             }else cout << "Hiba a hiba lista mentesekor" << endl;
             return false;
         }
@@ -278,8 +278,17 @@ bool Vasarlo::filmHozzaad(string filmID)
     }else cout << "File(ok) hianyoznak!" << endl;
 
 
-    //vasarlo mentese
+    //vasarlok betolt
     QJsonArray vasarlokLista;
+    QFile vas("vasalok.json");
+    if(vas.exists()){
+        if(vas.open(QIODevice::ReadOnly | QIODevice::Text)){
+            vasarlokLista = QJsonDocument::fromJson(vas.readAll()).object()["felhasznalok"].toArray();
+            vas.close();
+        }else cout << "error with json files" << endl;
+    }else cout << "File(s) Missing!" << endl;
+
+    //vasarlo mentese
     QJsonObject v;
     v["SzID"] = QString::fromStdString(getSzID());
     v["jelszo"] = QString::fromStdString(getJelszo());
@@ -296,7 +305,6 @@ bool Vasarlo::filmHozzaad(string filmID)
 
     vasarlokLista.push_back(v);
 
-
     //vasarlok ment
     QJsonDocument docV(vasarlokLista);
     QFile fileV("vasarlok.json");
@@ -304,7 +312,7 @@ bool Vasarlo::filmHozzaad(string filmID)
         QTextStream out(&fileV);
         out << docV.toJson();
         fileV.close();
-        cout << "JSON array saved to hibak.json";
+        cout << "JSON array saved to vasarlok.json";
     }else cout << "Hiba a hiba lista mentesekor" << endl;
 
     return sikerult;

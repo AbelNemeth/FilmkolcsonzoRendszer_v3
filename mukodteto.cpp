@@ -224,7 +224,6 @@ void Mukodteto::elofizetesekBeolvas()
     {
         if(elo.open(QIODevice::ReadOnly | QIODevice::Text))
         {
-
             QJsonArray elofizetesekJson = QJsonDocument::fromJson(elo.readAll()).object()["elofizetesek"].toArray();
 
             for(auto item : elofizetesekJson)
@@ -435,7 +434,7 @@ void Mukodteto::kilepes()
         QTextStream out(&fileV);
         out << docV.toJson();
         fileV.close();
-        cout << "JSON array saved to hibak.json";
+        cout << "JSON array saved to vasarlok.json";
     }else cout << "Hiba a hiba lista mentesekor" << endl;
     //elofizetok ment
     QJsonDocument docE(elofizetokLista);
@@ -444,7 +443,7 @@ void Mukodteto::kilepes()
         QTextStream out(&fileE);
         out << docE.toJson();
         fileE.close();
-        cout << "JSON array saved to hibak.json";
+        cout << "JSON array saved to elofizetok.json";
     }else cout << "Hiba a hiba lista mentesekor" << endl;
 }
 

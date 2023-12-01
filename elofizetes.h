@@ -13,8 +13,6 @@ public:
     Elofizetes(int _elofizetesID,int _elofizetesAra);
     Elofizetes() = default;
 
-    void adatokMegtekintese();
-
     int getElofizetesID() const;
     int getElofizetesAra();
     void setElofizetesAra(int newElofizetesAra);

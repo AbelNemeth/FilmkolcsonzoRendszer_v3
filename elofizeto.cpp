@@ -117,6 +117,7 @@ void Elofizeto::SajatAdatokBetolt()
 
 void Elofizeto::adatokMegtekintese()
 {
+    Felhasznalo::adatokMegtekintese();
     cout << "Tipus: Elofizeto" << endl;
 }
 
@@ -136,6 +137,7 @@ void Elofizeto::elofizetesMegtekintese()
                 if(elem["elofizetesTipus"].toInt() == this->getElofizetesID())
                 {
                     elofizetes = new Elofizetes(elem["elofizetesTipus"].toInt(),elem["elofizetesAra"].toInt());
+                    //cout << "Elofizetesi statusz: Elofizeto Elofizetes ara: " << elem["elofizetesTipus"].toInt() << " Elofizetesbol hatralevo napok: " << elem["elofizetesAra"].toInt() << endl;
                 }
             }
             elo.close();
@@ -255,7 +257,7 @@ bool Elofizeto::elofizetesLemondasMegkezdese()
             QTextStream out(&fileV);
             out << docV.toJson();
             fileV.close();
-            cout << "JSON array saved to hibak.json";
+            cout << "JSON array saved to vasarlok.json";
         }else cout << "Hiba a hiba lista mentesekor" << endl;
         //elofizetok ment
         QJsonDocument docE(elofizetokLista);
@@ -264,7 +266,7 @@ bool Elofizeto::elofizetesLemondasMegkezdese()
             QTextStream out(&fileE);
             out << docE.toJson();
             fileE.close();
-            cout << "JSON array saved to hibak.json";
+            cout << "JSON array saved to elofizetok.json";
         }else cout << "Hiba a hiba lista mentesekor" << endl;
         return false;
     }

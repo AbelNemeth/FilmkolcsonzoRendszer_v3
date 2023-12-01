@@ -13,11 +13,14 @@ using namespace std;
 
 void belepes();
 void regisztracio();
+void adatokBetolt();
 
-
+map<string, int> tipusIndex;
+map<string, string> idEsJelszo;
 
 int main()
 {
+    adatokBetolt();
     cout << "Program starting... " << endl;
     while(true)
     {
@@ -35,11 +38,8 @@ int main()
     return 0;
 }
 
-void belepes()
+void adatokBetolt()
 {
-    map<string, int> tipusIndex;
-    map<string, string> idEsJelszo;
-
     //getting the types and stuff
     QFile vas("vasarlok.json");
     QFile elo("elofizetok.json");
@@ -80,7 +80,9 @@ void belepes()
         }else cout << "error with json files" << endl;
     }
     else cout << "File(s) Missing!" << endl;
-
+}
+void belepes()
+{
     //adatok bekerese
     string id;
     string jelszo;
@@ -131,5 +133,59 @@ void belepes()
 
 void registracio()
 {
+    string bemenet;
+    cout << "Adjon meg egy felhasznalonevet! (a kilepeshez irja be hogy 0)" << endl;
+    cin >> bemenet;
+    if(bemenet == "0") return;
+    if(idEsJelszo.find(bemenet) != idEsJelszo.end())
+    {
+        cout << "Ez a felhasznalonev foglalt!" << endl;
+        return;
+    }
+    string szID = bemenet;
 
+    cout << "Adja meg a jelszavat! (a kilepeshez irja be hogy 0)" << endl;
+    cin >> bemenet;
+    if(bemenet == "0") return;
+    string jelszo = bemenet;
+
+    cout << "Adja meg az email cimet! (a kilepeshez irja be hogy 0)" << endl;
+    cin >> bemenet;
+    if(bemenet == "0") return;
+    string email = bemenet;
+
+    cout << "Adja meg a bankszamla szamat! (a kilepeshez irja be hogy 0)" << endl;
+    int bankszamlaSzam;
+    cin >> bankszamlaSzam;
+    if(bankszamlaSzam == 0) return;
+
+    //vasarlok betolt
+    QJsonArray vasarlokLista;
+    QFile vas("vasalok.json");
+    if(vas.exists()){
+        if(vas.open(QIODevice::ReadOnly | QIODevice::Text)){
+            vasarlokLista = QJsonDocument::fromJson(vas.readAll()).object()["felhasznalok"].toArray();
+            vas.close();
+        }else cout << "error with json files" << endl;
+    }else cout << "File(s) Missing!" << endl;
+
+    //vasarlo mentese
+    QJsonObject v;
+    v["SzID"] = QString::fromStdString(szID);
+    v["jelszo"] = QString::fromStdString(jelszo);
+    v["emailCim"] = QString::fromStdString(email);
+    v["bankszamlaSzam"] = bankszamlaSzam;
+    v["filmLista"] = QString::fromStdString("");
+
+    vasarlokLista.push_back(v);
+
+    //vasarlok ment
+    QJsonDocument docV(vasarlokLista);
+    QFile fileV("vasarlok.json");
+    if (fileV.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream out(&fileV);
+        out << docV.toJson();
+        fileV.close();
+        cout << "JSON array saved to vasarlok.json";
+    }else cout << "Hiba a hiba lista mentesekor" << endl;
 }
