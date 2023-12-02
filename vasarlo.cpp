@@ -61,7 +61,8 @@ void Vasarlo::menu()
             break;
         case 5:
             cout << "Mi a problema amit be szeretne jelenteni? (irja be hogy '0' a visszalepeshez)" << endl;
-            cin >> bemenet;
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                getline(cin,bemenet);
             problemaJelentese(bemenet, "bejelentett");
             break;
         default:
@@ -76,7 +77,7 @@ void Vasarlo::sajatAdatokBetolt()
     QFile vas("vasarlok.json");
     if(vas.exists()){
         if(vas.open(QIODevice::ReadOnly | QIODevice::Text)){
-            QJsonArray vasarlokJson = QJsonDocument::fromJson(vas.readAll()).object()["felhasznalok"].toArray();
+            QJsonArray vasarlokJson = QJsonDocument::fromJson(vas.readAll()).array();
             for(auto item : vasarlokJson)
             {
                 auto elem = item.toObject();
@@ -136,8 +137,8 @@ bool Vasarlo::elofizetesVasarlasa()
             if(vas.exists() && elo.exists()){
                 if(vas.open(QIODevice::ReadOnly | QIODevice::Text) && elo.open(QIODevice::ReadOnly | QIODevice::Text)){
 
-                    QJsonArray vasarlokJson =       QJsonDocument::fromJson(vas.readAll()).object()["felhasznalok"].toArray();
-                    QJsonArray elofizetokJson =     QJsonDocument::fromJson(elo.readAll()).object()["elofizetok"].toArray();
+                    QJsonArray vasarlokJson =       QJsonDocument::fromJson(vas.readAll()).array();
+                    QJsonArray elofizetokJson =     QJsonDocument::fromJson(elo.readAll()).array();
                     for(auto item : vasarlokJson)
                     {
                         auto elem = item.toObject();
@@ -262,11 +263,12 @@ bool Vasarlo::filmHozzaad(string filmID)
     {
         if(file.open(QIODevice::ReadOnly | QIODevice::Text))
         {
-            QJsonArray filmekJson = QJsonDocument::fromJson(file.readAll()).object()["filmek"].toArray();
+            QJsonArray filmekJson = QJsonDocument::fromJson(file.readAll()).array();
             for(auto item : filmekJson)
             {
                 auto elem = item.toObject();
-                if(elem["FID"].toString().toStdString() == filmID)
+                string id = elem["FID"].toString().toStdString();
+                if(id == filmID)
                 {
                     Film* film = new Film(elem["FID"].toString().toStdString(), elem["cim"].toString().toStdString(),elem["ar"].toString().toInt());
                     sajatFilmek.push_back(film);
@@ -283,17 +285,17 @@ bool Vasarlo::filmHozzaad(string filmID)
     QFile vas("vasarlok.json");
     if(vas.exists()){
         if(vas.open(QIODevice::ReadOnly | QIODevice::Text)){
-            vasarlokLista = QJsonDocument::fromJson(vas.readAll()).object()["felhasznalok"].toArray();
+            vasarlokLista = QJsonDocument::fromJson(vas.readAll()).array();
             vas.close();
         }else cout << "error with json files" << endl;
     }else cout << "File(s) Missing!" << endl;
 
     //vasarlo mentese
-    QJsonObject v;
-    v["SzID"] = QString::fromStdString(getSzID());
-    v["jelszo"] = QString::fromStdString(getJelszo());
-    v["emailCim"] = QString::fromStdString(getEmailCim());
-    v["bankszamlaSzam"] = QString::number(getBankszamlaSzam());
+//    QJsonObject v;
+//    v["SzID"] = QString::fromStdString(getSzID());
+//    v["jelszo"] = QString::fromStdString(getJelszo());
+//    v["emailCim"] = QString::fromStdString(getEmailCim());
+//    v["bankszamlaSzam"] = QString::number(getBankszamlaSzam());
 
     ostringstream outputStringStream;
     for(auto item2 : getSajatFilmek())
@@ -301,9 +303,13 @@ bool Vasarlo::filmHozzaad(string filmID)
         outputStringStream << item2->getFilmID() << ";";
     }
     string outputString = outputStringStream.str();
-    v["filmLista"] = QString::fromStdString(outputString);
+//    v["filmLista"] = QString::fromStdString(outputString);
+    for(auto item : vasarlokLista)
+    {
+        if(item.toObject()["SzID"].toString().toStdString() == szID) item.toObject()["filmLista"] = QString::fromStdString(outputString);
+    }
 
-    vasarlokLista.push_back(v);
+//    vasarlokLista.push_back(v);
 
     //vasarlok ment
     QJsonDocument docV(vasarlokLista);
@@ -323,20 +329,21 @@ void Vasarlo::vasarolhatoFilmekListaz()
     cout << "Vasarolhato filmek listazasa..." << endl;
 
     QFile file("filmek.json");
-
+    map<string,int> filmIDs;
     if(file.exists())
     {
         if(file.open(QIODevice::ReadOnly | QIODevice::Text))
         {
-            QJsonArray filmekJson = QJsonDocument::fromJson(file.readAll()).object()["filmek"].toArray();
+            QJsonArray filmekJson = QJsonDocument::fromJson(file.readAll()).array();
             for(auto item : filmekJson)
             {
                 auto elem = item.toObject();
                 for(auto item2 : sajatFilmek)
                 {
-                    if(elem["FID"].toString().toStdString() == item2->getFilmID())
+                    if(elem["FID"].toString().toStdString() != item2->getFilmID())
                     {
                         cout << "\t" << elem["FID"].toString().toStdString() << "\t" << elem["cim"].toString().toStdString() << "\t" << elem["ar"].toString().toInt() << endl;
+                        filmIDs[elem["FID"].toString().toStdString()] = elem["ar"].toString().toInt();
                     }
                 }
 
@@ -344,6 +351,8 @@ void Vasarlo::vasarolhatoFilmekListaz()
             file.close();
         }else cout << "JSon hiba!" << endl;
     }else cout << "File(ok) hianyoznak!" << endl;
+
+    filmVasarlas();
 }
 
 void Vasarlo::sajatFilmekListaz()
@@ -371,7 +380,7 @@ void Vasarlo::sajatFilmekListaz()
 
 void Vasarlo::filmVasarlas()
 {
-    cout << "Adjon meg egy filmID-t amit meg szeretne vasarolni" << endl;
+    cout << "Adjon meg egy film azonositot amit meg szeretne vasarolni (ha nem ad meg azonositot akkor visszalep)" << endl;
 
     string id;
     cin >> id;

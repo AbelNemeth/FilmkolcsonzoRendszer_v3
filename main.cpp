@@ -50,10 +50,10 @@ void adatokBetolt()
     if(vas.exists() && elo.exists() && seg.exists() && adm.exists()){
         if(vas.open(QIODevice::ReadOnly | QIODevice::Text) && elo.open(QIODevice::ReadOnly | QIODevice::Text) && seg.open(QIODevice::ReadOnly | QIODevice::Text) && adm.open(QIODevice::ReadOnly | QIODevice::Text)){
 
-            QJsonArray vasarlok =       QJsonDocument::fromJson(vas.readAll()).object()["vasarlok"].toArray();
-            QJsonArray elofizetok =     QJsonDocument::fromJson(elo.readAll()).object()["elofizetok"].toArray();
-            QJsonArray adminok =        QJsonDocument::fromJson(seg.readAll()).object()["segitok"].toArray();
-            QJsonArray segitok =        QJsonDocument::fromJson(adm.readAll()).object()["adminok"].toArray();
+            QJsonArray vasarlok =       QJsonDocument::fromJson(vas.readAll()).array();
+            QJsonArray elofizetok =     QJsonDocument::fromJson(elo.readAll()).array();
+            QJsonArray adminok =        QJsonDocument::fromJson(seg.readAll()).array();
+            QJsonArray segitok =        QJsonDocument::fromJson(adm.readAll()).array();
             for(auto item : vasarlok)
             {
                 tipusIndex[item.toObject()["SzID"].toString().toStdString()] = 1;
@@ -166,7 +166,7 @@ void regisztracio()
     if(vas.exists())
     {
         if(vas.open(QIODevice::ReadOnly | QIODevice::Text)){
-            vasarlokLista = QJsonDocument::fromJson(vas.readAll()).object()["felhasznalok"].toArray();
+            vasarlokLista = QJsonDocument::fromJson(vas.readAll()).array();
             vas.close();
         }else cout << "error with json files" << endl; return;
     }else cout << "File(s) Missing!" << endl; return;

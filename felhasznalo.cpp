@@ -44,7 +44,7 @@ void Felhasznalo::problemaJelentese(string jelentes, string tipus)
             if(hib.open(QIODevice::ReadOnly | QIODevice::Text))
             {
 
-                QJsonArray hibakJson = QJsonDocument::fromJson(hib.readAll()).object()["hibak"].toArray();
+                QJsonArray hibakJson = QJsonDocument::fromJson(hib.readAll()).array();
 
                 for(auto item : hibakJson)
                 {
@@ -83,7 +83,7 @@ void Felhasznalo::problemaJelentese(string jelentes, string tipus)
             QTextStream out(&fileH);
             out << docH.toJson();
             fileH.close();
-            cout << "JSON array saved to hibak.json";
+            cout << "JSON array saved to hibak.json" << endl;
         }else cout << "Hiba a hiba lista mentesekor" << endl;
         cout << "Problema jelentve" << endl;
     }

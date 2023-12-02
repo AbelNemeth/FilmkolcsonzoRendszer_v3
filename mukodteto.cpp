@@ -138,7 +138,7 @@ void Mukodteto::hibaListakBeolvas()
         if(hib.open(QIODevice::ReadOnly | QIODevice::Text))
         {
 
-            QJsonArray hibakJson = QJsonDocument::fromJson(hib.readAll()).object()["hibak"].toArray();
+            QJsonArray hibakJson = QJsonDocument::fromJson(hib.readAll()).array();
 
             for(auto item : hibakJson)
             {
@@ -168,8 +168,8 @@ void Mukodteto::felhasznalokBeolvas()
     if(vas.exists() && elo.exists()){
         if(vas.open(QIODevice::ReadOnly | QIODevice::Text) && elo.open(QIODevice::ReadOnly | QIODevice::Text)){
 
-            QJsonArray vasarlokJson =       QJsonDocument::fromJson(vas.readAll()).object()["felhasznalok"].toArray();
-            QJsonArray elofizetokJson =     QJsonDocument::fromJson(elo.readAll()).object()["elofizetok"].toArray();
+            QJsonArray vasarlokJson =       QJsonDocument::fromJson(vas.readAll()).array();
+            QJsonArray elofizetokJson =     QJsonDocument::fromJson(elo.readAll()).array();
             for(auto item : vasarlokJson)
             {
                 auto elem = item.toObject();
@@ -224,7 +224,7 @@ void Mukodteto::elofizetesekBeolvas()
     {
         if(elo.open(QIODevice::ReadOnly | QIODevice::Text))
         {
-            QJsonArray elofizetesekJson = QJsonDocument::fromJson(elo.readAll()).object()["elofizetesek"].toArray();
+            QJsonArray elofizetesekJson = QJsonDocument::fromJson(elo.readAll()).array();
 
             for(auto item : elofizetesekJson)
             {

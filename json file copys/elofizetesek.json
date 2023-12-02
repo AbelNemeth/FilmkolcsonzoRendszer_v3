@@ -1,13 +1,10 @@
-{
-    "elofizetesek":
-    [
-        {
-            "elofizetesTipus": "1",
-            "elofizetesAra": "500"
-        },
-        {
-            "elofizetesTipus": "2",
-            "elofizetesAra": "600"
-        }
-    ]
-}
+[
+    {
+        "elofizetesTipus": "1",
+        "elofizetesAra": "500"
+    },
+    {
+        "elofizetesTipus": "2",
+        "elofizetesAra": "600"
+    }
+]

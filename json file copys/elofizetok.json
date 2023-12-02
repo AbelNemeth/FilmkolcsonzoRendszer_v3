@@ -1,21 +1,18 @@
-{
-    "elofizetok":
-    [
-        {
-            "SzID": "marry_jane",
-            "jelszo": "pass",
-            "emailCim": "marryjane@email.com",
-            "bankszamlaSzam": "1357",
-            "elofizetesID": "1",
-            "elofizetesMegkezdese": "1701298614"
-        },
-        {
-            "SzID": "jill_smith",
-            "jelszo": "pass",
-            "emailCim": "jillsmith@email.com",
-            "bankszamlaSzam": "2468",
-            "elofizetesID": "2",
-            "elofizetesMegkezdese": "1694296800"
-        }
-    ]
-}
+[
+    {
+        "SzID": "marry_jane",
+        "jelszo": "pass",
+        "emailCim": "marryjane@email.com",
+        "bankszamlaSzam": "1357",
+        "elofizetesID": "1",
+        "elofizetesMegkezdese": "1701298614"
+    },
+    {
+        "SzID": "jill_smith",
+        "jelszo": "pass",
+        "emailCim": "jillsmith@email.com",
+        "bankszamlaSzam": "2468",
+        "elofizetesID": "2",
+        "elofizetesMegkezdese": "1694296800"
+    }
+]

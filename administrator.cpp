@@ -89,7 +89,7 @@ void Administrator::filmekBetolt()
     {
         if(file.open(QIODevice::ReadOnly | QIODevice::Text))
         {
-            QJsonArray filmekJson = QJsonDocument::fromJson(file.readAll()).object()["filmek"].toArray();
+            QJsonArray filmekJson = QJsonDocument::fromJson(file.readAll()).array();
             for(auto item : filmekJson)
             {
                 auto elem = item.toObject();
