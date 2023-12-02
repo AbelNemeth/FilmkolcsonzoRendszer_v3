@@ -73,7 +73,7 @@ void Vasarlo::menu()
 
 void Vasarlo::sajatAdatokBetolt()
 {
-    QFile vas("vasalok.json");
+    QFile vas("vasarlok.json");
     if(vas.exists()){
         if(vas.open(QIODevice::ReadOnly | QIODevice::Text)){
             QJsonArray vasarlokJson = QJsonDocument::fromJson(vas.readAll()).object()["felhasznalok"].toArray();
@@ -131,7 +131,7 @@ bool Vasarlo::elofizetesVasarlasa()
         {
             list<Vasarlo*> vasarlok;
             list<Elofizeto*> elofizetok;
-            QFile vas("vasalok.json");
+            QFile vas("vasarlok.json");
             QFile elo("elofizetok.json");
             if(vas.exists() && elo.exists()){
                 if(vas.open(QIODevice::ReadOnly | QIODevice::Text) && elo.open(QIODevice::ReadOnly | QIODevice::Text)){
@@ -280,7 +280,7 @@ bool Vasarlo::filmHozzaad(string filmID)
 
     //vasarlok betolt
     QJsonArray vasarlokLista;
-    QFile vas("vasalok.json");
+    QFile vas("vasarlok.json");
     if(vas.exists()){
         if(vas.open(QIODevice::ReadOnly | QIODevice::Text)){
             vasarlokLista = QJsonDocument::fromJson(vas.readAll()).object()["felhasznalok"].toArray();
@@ -312,7 +312,7 @@ bool Vasarlo::filmHozzaad(string filmID)
         QTextStream out(&fileV);
         out << docV.toJson();
         fileV.close();
-        cout << "JSON array saved to vasarlok.json";
+        cout << "JSON array saved to vasarlok.json" << endl;
     }else cout << "Hiba a hiba lista mentesekor" << endl;
 
     return sikerult;

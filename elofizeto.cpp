@@ -166,7 +166,7 @@ bool Elofizeto::elofizetesLemondasMegkezdese()
     {
         list<Vasarlo*> vasarlok;
         list<Elofizeto*> elofizetok;
-        QFile vas("vasalok.json");
+        QFile vas("vasarlok.json");
         QFile elo("elofizetok.json");
         if(vas.exists() && elo.exists()){
             if(vas.open(QIODevice::ReadOnly | QIODevice::Text) && elo.open(QIODevice::ReadOnly | QIODevice::Text)){
@@ -262,7 +262,7 @@ bool Elofizeto::elofizetesLemondasMegkezdese()
             QTextStream out(&fileV);
             out << docV.toJson();
             fileV.close();
-            cout << "JSON array saved to vasarlok.json";
+            cout << "JSON array saved to vasarlok.json" << endl;
         }else cout << "Hiba a hiba lista mentesekor" << endl;
         //elofizetok ment
         QJsonDocument docE(elofizetokLista);
@@ -271,7 +271,7 @@ bool Elofizeto::elofizetesLemondasMegkezdese()
             QTextStream out(&fileE);
             out << docE.toJson();
             fileE.close();
-            cout << "JSON array saved to elofizetok.json";
+            cout << "JSON array saved to elofizetok.json" << endl;
         }else cout << "Hiba a hiba lista mentesekor" << endl;
         return false;
     }
