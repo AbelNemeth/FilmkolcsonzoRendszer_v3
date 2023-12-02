@@ -50,7 +50,7 @@ void adatokBetolt()
     if(vas.exists() && elo.exists() && seg.exists() && adm.exists()){
         if(vas.open(QIODevice::ReadOnly | QIODevice::Text) && elo.open(QIODevice::ReadOnly | QIODevice::Text) && seg.open(QIODevice::ReadOnly | QIODevice::Text) && adm.open(QIODevice::ReadOnly | QIODevice::Text)){
 
-            QJsonArray vasarlok =       QJsonDocument::fromJson(vas.readAll()).object()["felhasznalok"].toArray();
+            QJsonArray vasarlok =       QJsonDocument::fromJson(vas.readAll()).object()["vasarlok"].toArray();
             QJsonArray elofizetok =     QJsonDocument::fromJson(elo.readAll()).object()["elofizetok"].toArray();
             QJsonArray adminok =        QJsonDocument::fromJson(seg.readAll()).object()["segitok"].toArray();
             QJsonArray segitok =        QJsonDocument::fromJson(adm.readAll()).object()["adminok"].toArray();
