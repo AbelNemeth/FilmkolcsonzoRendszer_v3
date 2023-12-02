@@ -70,7 +70,7 @@ void Felhasznalo::problemaJelentese(string jelentes, string tipus)
             if(item.getActiv())
             {
                 QJsonObject hiba;
-                hiba["ID"] = item.getId();
+                hiba["ID"] = QString::number(item.getId());
                 hiba["SzID"] = QString::fromStdString(item.getSzID());
                 hiba["tipus"] = QString::fromStdString(item.getTipus());
                 hiba["leiras"] = QString::fromStdString(item.getLeiras());

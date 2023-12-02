@@ -366,9 +366,9 @@ void Mukodteto::kilepes()
         if(item.getActiv())
         {
             QJsonObject hiba;
-            hiba["ID"] = item.getId();
+            hiba["ID"] = QString::number(item.getId());
             hiba["SzID"] = QString::fromStdString(item.getSzID());
-            hiba["tipus"] = "tranzakcios";
+            hiba["tipus"] = QString::fromStdString("tranzakcios");
             hiba["leiras"] = QString::fromStdString(item.getLeiras());
             hibakLista.push_back(hiba);
         }
@@ -378,9 +378,9 @@ void Mukodteto::kilepes()
         if(item.getActiv())
         {
             QJsonObject hiba;
-            hiba["ID"] = item.getId();
+            hiba["ID"] = QString::number(item.getId());
             hiba["SzID"] = QString::fromStdString(item.getSzID());
-            hiba["tipus"] = "bejelentett";
+            hiba["tipus"] =  QString::fromStdString("bejelentett");
             hiba["leiras"] = QString::fromStdString(item.getLeiras());
             hibakLista.push_back(hiba);
         }
@@ -404,7 +404,7 @@ void Mukodteto::kilepes()
             v["SzID"] = QString::fromStdString(vasarlo->getSzID());
             v["jelszo"] = QString::fromStdString(vasarlo->getJelszo());
             v["emailCim"] = QString::fromStdString(vasarlo->getEmailCim());
-            v["bankszamlaSzam"] = vasarlo->getBankszamlaSzam();
+            v["bankszamlaSzam"] = QString::number(vasarlo->getBankszamlaSzam());
 
             ostringstream outputStringStream;
             for(auto item2 : vasarlo->getSajatFilmek())
@@ -422,8 +422,8 @@ void Mukodteto::kilepes()
             e["SzID"] = QString::fromStdString(elofizeto->getSzID());
             e["jelszo"] = QString::fromStdString(elofizeto->getJelszo());
             e["emailCim"] = QString::fromStdString(elofizeto->getEmailCim());
-            e["bankszamlaSzam"] = elofizeto->getBankszamlaSzam();
-            e["elofizetesID"] = elofizeto->getElofizetesID();
+            e["bankszamlaSzam"] = QString::number(elofizeto->getBankszamlaSzam());
+            e["elofizetesID"] = QString::number(elofizeto->getElofizetesID());
             elofizetokLista.push_back(e);
         }
     }

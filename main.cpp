@@ -162,20 +162,21 @@ void regisztracio()
 
     //vasarlok betolt
     QJsonArray vasarlokLista;
-    QFile vas("vasalok.json");
-    if(vas.exists()){
+    QFile vas("vasarlok.json");
+    if(vas.exists())
+    {
         if(vas.open(QIODevice::ReadOnly | QIODevice::Text)){
             vasarlokLista = QJsonDocument::fromJson(vas.readAll()).object()["felhasznalok"].toArray();
             vas.close();
-        }else cout << "error with json files" << endl;
-    }else cout << "File(s) Missing!" << endl;
+        }else cout << "error with json files" << endl; return;
+    }else cout << "File(s) Missing!" << endl; return;
 
     //vasarlo mentese
     QJsonObject v;
     v["SzID"] = QString::fromStdString(szID);
     v["jelszo"] = QString::fromStdString(jelszo);
     v["emailCim"] = QString::fromStdString(email);
-    v["bankszamlaSzam"] = bankszamlaSzam;
+    v["bankszamlaSzam"] = QString::number(bankszamlaSzam);
     v["filmLista"] = QString::fromStdString("");
 
     vasarlokLista.push_back(v);
@@ -187,6 +188,6 @@ void regisztracio()
         QTextStream out(&fileV);
         out << docV.toJson();
         fileV.close();
-        cout << "JSON array saved to vasarlok.json";
-    }else cout << "Hiba a hiba lista mentesekor" << endl;
+        cout << "JSON array saved to vasarlok.json" << endl; return;
+    }else cout << "Hiba a hiba lista mentesekor" << endl; return;
 }

@@ -233,7 +233,7 @@ bool Elofizeto::elofizetesLemondasMegkezdese()
             v["SzID"] = QString::fromStdString(item->getSzID());
             v["jelszo"] = QString::fromStdString(item->getJelszo());
             v["emailCim"] = QString::fromStdString(item->getEmailCim());
-            v["bankszamlaSzam"] = item->getBankszamlaSzam();
+            v["bankszamlaSzam"] = QString::number(item->getBankszamlaSzam());
 
             ostringstream outputStringStream;
             for(auto item2 : item->getSajatFilmek())
@@ -251,8 +251,8 @@ bool Elofizeto::elofizetesLemondasMegkezdese()
             e["SzID"] = QString::fromStdString(item->getSzID());
             e["jelszo"] = QString::fromStdString(item->getJelszo());
             e["emailCim"] = QString::fromStdString(item->getEmailCim());
-            e["bankszamlaSzam"] = item->getBankszamlaSzam();
-            e["elofizetesID"] = item->getElofizetesID();
+            e["bankszamlaSzam"] = QString::number(item->getBankszamlaSzam());
+            e["elofizetesID"] = QString::number(item->getElofizetesID());
             elofizetokLista.push_back(e);
         }
         //vasarlok ment

@@ -228,7 +228,7 @@ void Administrator::kilepes()
         QJsonObject fil;
         fil["FID"] = QString::fromStdString(item->getFilmID());
         fil["cim"] = QString::fromStdString(item->getCim());
-        fil["ar"] = item->getAr();
+        fil["ar"] = QString::number(item->getAr());
         filmekQArray.push_back(fil);
     }
     QJsonDocument doc(filmekQArray);
