@@ -21,10 +21,10 @@ map<string, string> idEsJelszo;
 
 int main()
 {
-    adatokBetolt();
     cout << "Program starting... " << endl;
     while(true)
     {
+        adatokBetolt();
         cout << "1. Bejelentkezes" << endl;
         cout << "2. Regisztracio" << endl;
         int valasztas = 0;
@@ -168,16 +168,16 @@ void regisztracio()
         if(vas.open(QIODevice::ReadOnly | QIODevice::Text)){
             vasarlokLista = QJsonDocument::fromJson(vas.readAll()).array();
             vas.close();
-        }else cout << "error with json files" << endl; return;
-    }else cout << "File(s) Missing!" << endl; return;
+        }else {cout << "error with json files" << endl; return;}
+    }else {cout << "File(s) Missing!" << endl; return;}
 
     //vasarlo mentese
     QJsonObject v;
     v["SzID"] = QString::fromStdString(szID);
-    v["jelszo"] = QString::fromStdString(jelszo);
-    v["emailCim"] = QString::fromStdString(email);
     v["bankszamlaSzam"] = QString::number(bankszamlaSzam);
+    v["emailCim"] = QString::fromStdString(email);
     v["filmLista"] = QString::fromStdString("");
+    v["jelszo"] = QString::fromStdString(jelszo);
 
     vasarlokLista.push_back(v);
 
