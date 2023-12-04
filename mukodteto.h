@@ -31,10 +31,11 @@ public:
     virtual void menu() = 0;
 
     virtual void adatokListazasa();
+
     void felhasznaloiAdatokModositasa();
     void felhaszanloIDModositasa();
     void felhaszanloEmailCimModositasa();
-    void felhasznaloBankszamlaSzamModositasa();
+//    void felhasznaloBankszamlaSzamModositasa();
 
     void hibaListakBeolvas();
     void felhasznalokBeolvas();

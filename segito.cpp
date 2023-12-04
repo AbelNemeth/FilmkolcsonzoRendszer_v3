@@ -73,15 +73,16 @@ void Segito::problemakKezelese()
 
 void Segito::elofizetesEllenorzese()
 {
-    cout << "Adjon meg egy felhasznalot" << endl;
-    string id;
-    cin >> id;
-    bool vanIlyen = false;
+//    cout << "Adjon meg egy felhasznalot" << endl;
+//    string id;
+//    cin >> id;
+//    bool vanIlyen = false;
+    cout << "Elofizetok listazasa" << endl;
     for(auto& item : felhasznalok)
     {
-        if(item->getSzID() == id)
-        {
-            vanIlyen = true;
+//        if(item->getSzID() == id)
+//        {
+//            vanIlyen = true;
             if(Elofizeto* elofizeto = dynamic_cast<Elofizeto*>(item))
             {
                 cout << "Elofizeto: " << elofizeto->getSzID() << " Hatralevo napok szama: ";
@@ -94,13 +95,19 @@ void Segito::elofizetesEllenorzese()
                     cout << elofizeto->getHatralevoNapok() << endl;
                 }
             }
-            else cout << "A felhasznalo nem elofizeto" << endl;
-        }
+//            else cout << "A felhasznalo nem elofizeto" << endl;
+//        }
     }
-    if(!vanIlyen)
-    {
-        cout << "Nincs ilyen felhasznalo!" << endl;
-    }
+//    if(!vanIlyen)
+//    {
+//        cout << "Nincs ilyen felhasznalo!" << endl;
+//    }
+    cout << "Szeretne megszuntetni egy elofizetest? (i/n)" << endl;
+    string bemenet;
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    getline(cin,bemenet);
+    if(bemenet == "i") elofizetesMegszuntetese();
+    else return;
 }
 
 void Segito::elofizetesMegszuntetese()

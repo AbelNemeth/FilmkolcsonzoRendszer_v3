@@ -55,14 +55,14 @@ void Elofizeto::menu()
         cout << "1. Elofizetes megtekintese" << endl;
         cout << "2. Filmek listazasa" << endl;
         cout << "3. Felhaszanloi adatok megtekintese" << endl;
-        cout << "4. Elofizetes lemondasa" << endl;
-        cout << "5. Problema bejelentese" << endl;
+//        cout << "4. Elofizetes lemondasa" << endl;
+        cout << "4. Problema bejelentese" << endl;
         cout << "0. Kijelentkezes" << endl;
 
         int valasz;
         cin >> valasz;
 
-        string jelentes;
+        string bemenet;
         switch (valasz) {
         case 0:
             cout << "Kijelentkes..." << endl;
@@ -77,13 +77,14 @@ void Elofizeto::menu()
         case 3:
             adatokMegtekintese();
             break;
+//        case 4:
+//            aktiv = elofizetesLemondasMegkezdese();
+//            break;
         case 4:
-            aktiv = elofizetesLemondasMegkezdese();
-            break;
-        case 5:
             cout << "Mi a problema amit be szeretne jelenteni? (irja be hogy '0' a visszalepeshez)" << endl;
-            cin >> jelentes;
-            problemaJelentese(jelentes, "bejelentett");
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                getline(cin,bemenet);
+            problemaJelentese(bemenet, "bejelentett");
             break;
         default:
             cout << "Nincs ilyen opcio" << endl;
@@ -141,7 +142,15 @@ void Elofizeto::elofizetesMegtekintese()
                 if(id == this->getElofizetesID())
                 {
                     //elofizetes = new Elofizetes(elem["elofizetesTipus"].toString().toInt(),elem["elofizetesAra"].toString().toInt());
-                    cout << "Elofizetesi statusz: Elofizeto, Elofizetes ara: " << elem["elofizetesAra"].toString().toInt() << ", Elofizetesbol hatralevo napok: " << this->getHatralevoNapok() << endl;
+                    cout << "Elofizetesi statusz: Elofizeto, Elofizetes ara: " << elem["elofizetesAra"].toString().toInt() << ", Elofizetesbol hatralevo napok: "; // << this->getHatralevoNapok() << endl;
+                    if(getHatralevoNapok() < 0)
+                    {
+                        cout << "AZ ELOFIZETESE LEJART!" << endl;
+                    }
+                    else
+                    {
+                        cout << getHatralevoNapok() << endl;
+                    }
                 }
             }
             elo.close();
@@ -149,6 +158,15 @@ void Elofizeto::elofizetesMegtekintese()
     }else cout << "File(ok) hianyoznak!" << endl;
 
     //if(elofizetes != nullptr)cout << "Elofizetesi statusz: Elofizeto Elofizetes ara: " << elofizetes->getElofizetesAra() << " Elofizetesbol hatralevo napok: " << this->getHatralevoNapok() << endl;
+    cout << "Szeretne lemondani az elofizeteset? (i/n)" << endl;
+    string bemenet;
+    cin >> bemenet;
+    if(bemenet == "i")
+    {
+        elofizetesLemondasMegkezdese();
+    }
+    else
+        return;
 }
 
 Vasarlo *Elofizeto::elofizetesLemondasa()
@@ -277,7 +295,7 @@ bool Elofizeto::elofizetesLemondasMegkezdese()
             QTextStream out(&fileV);
             out << docV.toJson();
             fileV.close();
-            cout << "JSON array saved to vasarlok.json" << endl;
+            //cout << "JSON array saved to vasarlok.json" << endl;
         }else cout << "Hiba a hiba lista mentesekor" << endl;
         //elofizetok ment
         QJsonDocument docE(elofizetokLista);
@@ -286,7 +304,7 @@ bool Elofizeto::elofizetesLemondasMegkezdese()
             QTextStream out(&fileE);
             out << docE.toJson();
             fileE.close();
-            cout << "JSON array saved to elofizetok.json" << endl;
+            //cout << "JSON array saved to elofizetok.json" << endl;
         }else cout << "Hiba a hiba lista mentesekor" << endl;
         return false;
     }

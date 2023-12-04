@@ -188,6 +188,6 @@ void regisztracio()
         QTextStream out(&fileV);
         out << docV.toJson();
         fileV.close();
-        cout << "JSON array saved to vasarlok.json" << endl; return;
+        //cout << "JSON array saved to vasarlok.json" << endl; return;
     }else cout << "Hiba a hiba lista mentesekor" << endl; return;
 }

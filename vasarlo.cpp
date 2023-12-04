@@ -245,7 +245,7 @@ bool Vasarlo::elofizetesVasarlasa()
                 QTextStream out(&fileV);
                 out << docV.toJson();
                 fileV.close();
-                cout << "JSON array saved to vasarlok.json";
+                //cout << "JSON array saved to vasarlok.json" << endl;
             }else cout << "Hiba a hiba lista mentesekor" << endl;
             //elofizetok ment
             QJsonDocument docE(elofizetokLista);
@@ -254,7 +254,7 @@ bool Vasarlo::elofizetesVasarlasa()
                 QTextStream out(&fileE);
                 out << docE.toJson();
                 fileE.close();
-                cout << "JSON array saved to elofizetok.json";
+                //cout << "JSON array saved to elofizetok.json"  << endl;
             }else cout << "Hiba a hiba lista mentesekor" << endl;
             return false;
         }
@@ -334,7 +334,7 @@ bool Vasarlo::filmHozzaad(string filmID)
         QTextStream out(&fileV);
         out << docV.toJson();
         fileV.close();
-        cout << "JSON array saved to vasarlok.json" << endl;
+        //cout << "JSON array saved to vasarlok.json" << endl;
     }else cout << "Hiba a hiba lista mentesekor" << endl;
 
     return sikerult;

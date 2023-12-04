@@ -83,7 +83,7 @@ void Felhasznalo::problemaJelentese(string jelentes, string tipus)
             QTextStream out(&fileH);
             out << docH.toJson();
             fileH.close();
-            cout << "JSON array saved to hibak.json" << endl;
+            //cout << "JSON array saved to hibak.json" << endl;
         }else cout << "Hiba a hiba lista mentesekor" << endl;
         cout << "Problema jelentve" << endl;
     }

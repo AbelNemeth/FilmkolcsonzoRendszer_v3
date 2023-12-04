@@ -163,6 +163,7 @@ void Administrator::filmAdatokModositasa()
             cout << "Melyik adatot akarja modositani?" << endl;
             cout << "1. Cim modositasa" << endl;
             cout << "2. Ar modositasa" << endl;
+            cout << "3. Hossz modositasa" << endl;
             cout << "0. Kilepes a modosito menubol" << endl;
             int bemenet;
             cin >> bemenet;
@@ -237,7 +238,7 @@ void Administrator::kilepes()
         QTextStream out(&file);
         out << doc.toJson();
         file.close();
-        cout << "JSON array saved to filmek.json" << endl;
+        //cout << "JSON array saved to filmek.json" << endl;
     }else cout << "Hiba a hiba lista mentesekor" << endl;
 
     Mukodteto::kilepes();

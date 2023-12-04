@@ -44,7 +44,7 @@ void Mukodteto::felhasznaloiAdatokModositasa()
     cout << "Milyen tipusu adatot szeretne modositani?" << endl;
     cout << "1. szID" << endl;
     cout << "2. email" << endl;
-    cout << "3. BankszamlaSzam" << endl;
+//    cout << "3. BankszamlaSzam" << endl;
     cout << "0. visszalepes" << endl;
 
     int bemenet;
@@ -57,9 +57,9 @@ void Mukodteto::felhasznaloiAdatokModositasa()
     case 2:
         felhaszanloEmailCimModositasa();
         break;
-    case 3:
-        felhasznaloBankszamlaSzamModositasa();
-        break;
+//    case 3:
+//        felhasznaloBankszamlaSzamModositasa();
+//        break;
     case 0:
         cout << "Kilepes" << endl;
         break;
@@ -112,26 +112,26 @@ void Mukodteto::felhaszanloEmailCimModositasa()
     if(!sikerult) cout << "Nincs ilyen felhasznalo!" << endl;
 }
 
-void Mukodteto::felhasznaloBankszamlaSzamModositasa()
-{
-    cout << "Adja meg melyik felhasznalot akarja modositani" << endl;
-    string id;
-    cin >> id;
-    cout << "Adja meg az uj bankszamla szamot" << endl;
-    int szamlaSzam;
-    cin >> szamlaSzam;
-    bool sikerult = false;
-    for(auto* item : felhasznalok)
-    {
-        if(item->getSzID() == id)
-        {
-            item->setBankszamlaSzam(szamlaSzam);
-            cout << "Bankszamla szam sikeresen megaltoztatva!" << endl;
-            sikerult = true;
-        }
-    }
-    if(!sikerult) cout << "Nincs ilyen felhasznalo!" << endl;
-}
+//void Mukodteto::felhasznaloBankszamlaSzamModositasa()
+//{
+//    cout << "Adja meg melyik felhasznalot akarja modositani" << endl;
+//    string id;
+//    cin >> id;
+//    cout << "Adja meg az uj bankszamla szamot" << endl;
+//    int szamlaSzam;
+//    cin >> szamlaSzam;
+//    bool sikerult = false;
+//    for(auto* item : felhasznalok)
+//    {
+//        if(item->getSzID() == id)
+//        {
+//            item->setBankszamlaSzam(szamlaSzam);
+//            cout << "Bankszamla szam sikeresen megaltoztatva!" << endl;
+//            sikerult = true;
+//        }
+//    }
+//    if(!sikerult) cout << "Nincs ilyen felhasznalo!" << endl;
+//}
 
 void Mukodteto::hibaListakBeolvas()
 {
@@ -398,7 +398,7 @@ void Mukodteto::kilepes()
         QTextStream out(&fileH);
         out << docH.toJson();
         fileH.close();
-        cout << "JSON array saved to hibak.json" << endl;
+        //cout << "JSON array saved to hibak.json" << endl;
     }else cout << "Hiba a hiba lista mentesekor" << endl;
 
     //felhasznalok mentese
@@ -443,7 +443,7 @@ void Mukodteto::kilepes()
         QTextStream out(&fileV);
         out << docV.toJson();
         fileV.close();
-        cout << "JSON array saved to vasarlok.json" << endl;
+        //cout << "JSON array saved to vasarlok.json" << endl;
     }else cout << "Hiba a hiba lista mentesekor" << endl;
     //elofizetok ment
     QJsonDocument docE(elofizetokLista);
@@ -452,7 +452,7 @@ void Mukodteto::kilepes()
         QTextStream out(&fileE);
         out << docE.toJson();
         fileE.close();
-        cout << "JSON array saved to elofizetok.json" << endl;
+        //cout << "JSON array saved to elofizetok.json" << endl;
     }else cout << "Hiba a hiba lista mentesekor" << endl;
 
 
@@ -473,7 +473,7 @@ void Mukodteto::kilepes()
         QTextStream out(&fileElofizetes);
         out << docElofizetes.toJson();
         fileElofizetes.close();
-        cout << "JSON array saved to hibak.json" << endl;
+        //cout << "JSON array saved to hibak.json" << endl;
     }else cout << "Hiba a hiba lista mentesekor" << endl;
 
 }
