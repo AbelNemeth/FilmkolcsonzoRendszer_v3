@@ -243,7 +243,7 @@ void Mukodteto::tranzakciosHibakKiir()
     {
         for(auto& item : tranzakciosHibakLista)
         {
-            cout << item.getId() << " : felhasznalao: " << item.getSzID() << endl << "\tTranzakcios hiba: " << item.getLeiras() << endl;
+            cout << item.getId() << " : felhasznalao: " << item.getSzID() << endl << "\tTranzakcios hiba: " << item.getLeiras() << " Allapota: " << item.getActiv() << endl;
         }
     }
     else cout << "Nincsenek tranzakcios hibak!" << endl;
@@ -259,7 +259,7 @@ void Mukodteto::problemakListaKiir()
     {
         for(auto& item : problemakLista)
         {
-            cout << item.getId() << " : felhasznalao: " << item.getSzID() << endl << "\tBejelentett hiba: " << item.getLeiras() << endl;
+            cout << item.getId() << " : felhasznalao: " << item.getSzID() << endl << "\tBejelentett hiba: " << item.getLeiras() << " Allapota: " << item.getActiv() << endl;
         }
     }
     else cout << "Nincsenek tranzakcios hibak!" << endl;
@@ -270,30 +270,33 @@ void Mukodteto::problemakListaKiir()
 void Mukodteto::hibaAllapotModositasa()
 {
     cout << "Melyik hiba allapotat szeretne megvaltoztatni?" << endl;
-    string bemenet;
+    int bemenet;
     cin >> bemenet;
     bool vanIlyen = false;
 
-    for(auto item : tranzakciosHibakLista)
+    for(auto& item : tranzakciosHibakLista)
     {
-        if(bemenet == item.getSzID())
+        if(bemenet == item.getId())
         {
             vanIlyen = true;
             cout << "Mi legyen az uj allapota?(0/1)" << endl;
-            bool allapot;
+            int allapot;
             cin >> allapot;
-            item.setActiv(allapot);
+            if(allapot == 1) item.setActiv(true);
+            else item.setActiv(false);
         }
     }
-    for(auto item : problemakLista)
+    for(auto& item : problemakLista)
     {
-        if(bemenet == item.getSzID())
+        if(bemenet == item.getId())
         {
             vanIlyen = true;
             cout << "Mi legyen az uj allapota?(0/1)" << endl;
-            bool allapot;
+            int allapot;
             cin >> allapot;
             item.setActiv(allapot);
+            if(allapot == 1) item.setActiv(true);
+            else item.setActiv(false);
         }
     }
     if(!vanIlyen) cout << "Nincs ilyen azonositoju hiba" << endl;
@@ -311,8 +314,8 @@ void Mukodteto::hibaListaTorlese()
     auto itT = tranzakciosHibakLista.begin();
     auto itP = problemakLista.begin();
 
-    switch (bemenet) {
-    case 1:
+    if(bemenet == 1)
+    {
         while(itT != tranzakciosHibakLista.end())
         {
             if(!itT->getActiv())
@@ -321,8 +324,9 @@ void Mukodteto::hibaListaTorlese()
             }
             itT++;
         }
-        break;
-    case 2:
+    }
+    else if(bemenet == 2)
+    {
         while(itP != tranzakciosHibakLista.end())
         {
             if(!itP->getActiv())
@@ -331,8 +335,9 @@ void Mukodteto::hibaListaTorlese()
             }
             itP++;
         }
-        break;
-    case 3:
+    }
+    else if(bemenet == 3)
+    {
         while(itT != tranzakciosHibakLista.end())
         {
             if(!itT->getActiv())
@@ -349,10 +354,10 @@ void Mukodteto::hibaListaTorlese()
             }
             itP++;
         }
-        break;
-    default:
+    }
+    else
+    {
         cout << "Hibas bemenet" << endl;
-        break;
     }
 }
 
