@@ -6,7 +6,6 @@
 Mukodteto::Mukodteto(string _szID):
     szID(_szID)
 {
-    hibaListakBeolvas();
 }
 
 void Mukodteto::adatokListazasa()
@@ -14,24 +13,25 @@ void Mukodteto::adatokListazasa()
     cout << "Felhasznalok listazasa: " << endl;
     for(auto item : felhasznalok)
     {
-        cout << "SzID: " << item->getSzID() << " emailCim: " << item->getEmailCim() << " bankszamlaSzam: " << item->getBankszamlaSzam();
+        cout << "\tSzID: " << item->getSzID() << " emailCim: " << item->getEmailCim() << " bankszamlaSzam: " << item->getBankszamlaSzam();
         if(Vasarlo* vasarlo = dynamic_cast<Vasarlo*>(item))
         {
-            cout << " filmek: ";
+            cout << " Filmek: ";
             for(const auto &item2 : vasarlo->getSajatFilmek())
             {
-                cout << item2->getFilmID() << " " << endl;
+                cout << item2->getFilmID() << " ";
             }
+            cout << endl;
         }
         else if(Elofizeto* elofizeto = dynamic_cast<Elofizeto*>(item))
         {
-            cout << "Elofizetes tipusa: " << elofizeto->getElofizetesID() << "Elofizetesbol hatralevo ido: " << elofizeto->getHatralevoNapok() << " nap" << endl;
+            cout << " Elofizetes tipusa: " << elofizeto->getElofizetesID() << " Elofizetesbol hatralevo ido: " << elofizeto->getHatralevoNapok() << " nap" << endl;
         }
     }
     cout << "Elofizetesek listazasa: " << endl;
     for(auto item : elofizetesek)
     {
-        cout << "Elofizetestipus azonosito: " << item->getElofizetesID() << " Ar: " << item->getElofizetesAra() << endl;
+        cout << "\tElofizetestipus azonosito: " << item->getElofizetesID() << " Ar: " << item->getElofizetesAra() << endl;
     }
 }
 
@@ -149,8 +149,7 @@ void Mukodteto::hibaListakBeolvas()
                 {
                     tranzakciosHibakLista.push_back(hiba);
                 }
-
-                if(elem["tipus"].toString().toStdString() == "bejelentett")
+                else if(elem["tipus"].toString().toStdString() == "bejelentett")
                 {
                     problemakLista.push_back(hiba);
                 }

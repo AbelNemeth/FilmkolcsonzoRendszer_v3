@@ -18,7 +18,7 @@ int Elofizeto::getHatralevoNapok()
     time(&currentTime); // Get the current time
 
     // Calculate the difference in seconds between the two times
-    double secondsDiff = difftime(currentTime, elofizetesMegkezdese);
+    double secondsDiff = difftime(elofizetesMegkezdese, currentTime);
 
     // Convert seconds to days (1 day = 86400 seconds)
     int daysPassed = (int)(secondsDiff / 86400);

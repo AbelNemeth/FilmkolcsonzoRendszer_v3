@@ -75,9 +75,10 @@ void Administrator::menu()
 void Administrator::adatokListazasa()
 {
     Mukodteto::adatokListazasa();
+    cout << "Filmek Listazasa: " << endl;
     for(auto item : filmek)
     {
-        cout << "ID: " << item->getFilmID() << " Cim: " << item->getCim() << " Ar: " << item->getAr() << endl;
+        cout << "\tID: " << item->getFilmID() << " Cim: " << item->getCim() << " Ar: " << item->getAr() << endl;
     }
 }
 
