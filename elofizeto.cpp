@@ -48,7 +48,7 @@ Elofizeto::Elofizeto():
 
 void Elofizeto::menu()
 {
-    this->sajatAdatokBetolt();
+    sajatAdatokBetolt();
     bool aktiv = true;
     while(aktiv)
     {
@@ -98,13 +98,12 @@ void Elofizeto::sajatAdatokBetolt()
     QFile elo("elofizetok.json");
     if(elo.exists()){
         if(elo.open(QIODevice::ReadOnly | QIODevice::Text)){
-            QJsonArray elofizetokJson = QJsonDocument::fromJson(elo.readAll()).object()["elofizetok"].toArray();
+            QJsonArray elofizetokJson = QJsonDocument::fromJson(elo.readAll()).array();
 
             for(auto item : elofizetokJson)
             {
                 auto elem = item.toObject();
-                string id = elem["SzID"].toString().toStdString();
-                if(id == szID)
+                if(elem["SzID"].toString().toStdString() == szID)
                 {
                     jelszo = elem["jelszo"].toString().toStdString();
                     emailCim = elem["emailCim"].toString().toStdString();
@@ -134,7 +133,7 @@ void Elofizeto::elofizetesMegtekintese()
     {
         if(elo.open(QIODevice::ReadOnly | QIODevice::Text))
         {
-            QJsonArray elofizetesekJson = QJsonDocument::fromJson(elo.readAll()).object()["elofizetesek"].toArray();
+            QJsonArray elofizetesekJson = QJsonDocument::fromJson(elo.readAll()).array();
             for(auto item : elofizetesekJson)
             {
                 auto elem = item.toObject();
@@ -142,7 +141,7 @@ void Elofizeto::elofizetesMegtekintese()
                 if(id == this->getElofizetesID())
                 {
                     //elofizetes = new Elofizetes(elem["elofizetesTipus"].toString().toInt(),elem["elofizetesAra"].toString().toInt());
-                    cout << "Elofizetesi statusz: Elofizeto Elofizetes ara: " << elem["elofizetesTipus"].toString().toInt() << " Elofizetesbol hatralevo napok: " << elem["elofizetesAra"].toString().toInt() << endl;
+                    cout << "Elofizetesi statusz: Elofizeto, Elofizetes ara: " << elem["elofizetesAra"].toString().toInt() << ", Elofizetesbol hatralevo napok: " << this->getHatralevoNapok() << endl;
                 }
             }
             elo.close();
@@ -171,8 +170,8 @@ bool Elofizeto::elofizetesLemondasMegkezdese()
         if(vas.exists() && elo.exists()){
             if(vas.open(QIODevice::ReadOnly | QIODevice::Text) && elo.open(QIODevice::ReadOnly | QIODevice::Text)){
 
-                QJsonArray vasarlokJson =       QJsonDocument::fromJson(vas.readAll()).object()["felhasznalok"].toArray();
-                QJsonArray elofizetokJson =     QJsonDocument::fromJson(elo.readAll()).object()["elofizetok"].toArray();
+                QJsonArray vasarlokJson =       QJsonDocument::fromJson(vas.readAll()).array();
+                QJsonArray elofizetokJson =     QJsonDocument::fromJson(elo.readAll()).array();
                 for(auto item : vasarlokJson)
                 {
                     auto elem = item.toObject();
@@ -218,10 +217,26 @@ bool Elofizeto::elofizetesLemondasMegkezdese()
             }else cout << "error with json files" << endl;
         }else cout << "File(s) Missing!" << endl;
 
+//        for(auto item : vasarlok)
+//        {
+//            item->adatokMegtekintese();
+//        }
+//        for(auto item : elofizetok)
+//        {
+//            item->adatokMegtekintese();
+//        }
+        if(vasarlok.empty() || elofizetok.empty()) cout << "error" << endl;
 
         {//listák aátírása
-            elofizetok.remove(this);
-            vasarlok.push_back(elofizetesLemondasa());
+            elofizetok.remove_if([&](Elofizeto* elofizeto)
+            {
+                if(elofizeto->getSzID() == this->getSzID())
+                {
+                    vasarlok.push_back(elofizeto->elofizetesLemondasa());
+                    return true;
+                }
+                else return false;
+            });
         }
 
         //felhasznalok mentese
@@ -243,7 +258,7 @@ bool Elofizeto::elofizetesLemondasMegkezdese()
             string outputString = outputStringStream.str();
             v["filmLista"] = QString::fromStdString(outputString);
 
-            vasarlokLista.push_back(v);
+            vasarlokLista.append(v);
         }
         for(auto& item : elofizetok)
         {
@@ -253,7 +268,7 @@ bool Elofizeto::elofizetesLemondasMegkezdese()
             e["emailCim"] = QString::fromStdString(item->getEmailCim());
             e["bankszamlaSzam"] = QString::number(item->getBankszamlaSzam());
             e["elofizetesID"] = QString::number(item->getElofizetesID());
-            elofizetokLista.push_back(e);
+            elofizetokLista.append(e);
         }
         //vasarlok ment
         QJsonDocument docV(vasarlokLista);
@@ -290,7 +305,7 @@ void Elofizeto::filmekListazasa()
     {
         if(file.open(QIODevice::ReadOnly | QIODevice::Text))
         {
-            QJsonArray filmekJson = QJsonDocument::fromJson(file.readAll()).object()["filmek"].toArray();
+            QJsonArray filmekJson = QJsonDocument::fromJson(file.readAll()).array();
             for(auto item : filmekJson)
             {
                 auto elem = item.toObject();

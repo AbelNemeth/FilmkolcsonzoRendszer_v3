@@ -6,6 +6,10 @@
 Mukodteto::Mukodteto(string _szID):
     szID(_szID)
 {
+
+    hibaListakBeolvas();
+    felhasznalokBeolvas();
+    elofizetesekBeolvas();
 }
 
 void Mukodteto::adatokListazasa()
@@ -92,7 +96,7 @@ void Mukodteto::felhaszanloEmailCimModositasa()
     cout << "Adja meg melyik felhasznalot akarja modositani" << endl;
     string id;
     cin >> id;
-    cout << "Adja meg az uj emailcimet" << endl;
+    cout << "Adja meg az uj email cimet" << endl;
     string email;
     cin >> email;
     bool sikerult = false;
@@ -101,7 +105,7 @@ void Mukodteto::felhaszanloEmailCimModositasa()
         if(item->getSzID() == id)
         {
             item->setEmailCim(email);
-            cout << "ID sikeresen megaltoztatva!" << endl;
+            cout << "Email cim sikeresen megaltoztatva!" << endl;
             sikerult = true;
         }
     }
@@ -122,7 +126,7 @@ void Mukodteto::felhasznaloBankszamlaSzamModositasa()
         if(item->getSzID() == id)
         {
             item->setBankszamlaSzam(szamlaSzam);
-            cout << "ID sikeresen megaltoztatva!" << endl;
+            cout << "Bankszamla szam sikeresen megaltoztatva!" << endl;
             sikerult = true;
         }
     }
@@ -311,48 +315,46 @@ void Mukodteto::hibaListaTorlese()
 
     int bemenet;
     cin >> bemenet;
-    auto itT = tranzakciosHibakLista.begin();
-    auto itP = problemakLista.begin();
 
     if(bemenet == 1)
     {
-        while(itT != tranzakciosHibakLista.end())
+        for (auto itT = tranzakciosHibakLista.begin(); itT != tranzakciosHibakLista.end();)
         {
-            if(!itT->getActiv())
-            {
-                tranzakciosHibakLista.erase(itT);
+            if (!itT->getActiv()) {
+                itT = tranzakciosHibakLista.erase(itT);
+            } else {
+                ++itT; // Move to the next element
             }
-            itT++;
         }
     }
     else if(bemenet == 2)
     {
-        while(itP != tranzakciosHibakLista.end())
+        for (auto itP = problemakLista.begin(); itP != problemakLista.end();)
         {
-            if(!itP->getActiv())
-            {
-                tranzakciosHibakLista.erase(itP);
+            if (!itP->getActiv()) {
+                itP = problemakLista.erase(itP);
+            } else {
+                ++itP; // Move to the next element
             }
-            itP++;
         }
     }
     else if(bemenet == 3)
     {
-        while(itT != tranzakciosHibakLista.end())
+        for (auto itT = tranzakciosHibakLista.begin(); itT != tranzakciosHibakLista.end();)
         {
-            if(!itT->getActiv())
-            {
-                tranzakciosHibakLista.erase(itT);
+            if (!itT->getActiv()) {
+                itT = tranzakciosHibakLista.erase(itT);
+            } else {
+                ++itT; // Move to the next element
             }
-            itT++;
         }
-        while(itP != tranzakciosHibakLista.end())
+        for (auto itP = problemakLista.begin(); itP != problemakLista.end();)
         {
-            if(!itP->getActiv())
-            {
-                tranzakciosHibakLista.erase(itP);
+            if (!itP->getActiv()) {
+                itP = problemakLista.erase(itP);
+            } else {
+                ++itP; // Move to the next element
             }
-            itP++;
         }
     }
     else
@@ -363,6 +365,7 @@ void Mukodteto::hibaListaTorlese()
 
 void Mukodteto::kilepes()
 {
+    cout << "mukodteto kilepes..." << endl;
     //hibak mentese
     QJsonArray hibakLista;
     for(auto& item : tranzakciosHibakLista)
@@ -374,7 +377,7 @@ void Mukodteto::kilepes()
             hiba["SzID"] = QString::fromStdString(item.getSzID());
             hiba["tipus"] = QString::fromStdString("tranzakcios");
             hiba["leiras"] = QString::fromStdString(item.getLeiras());
-            hibakLista.push_back(hiba);
+            hibakLista.append(hiba);
         }
     }
     for(auto& item : problemakLista)
@@ -386,7 +389,7 @@ void Mukodteto::kilepes()
             hiba["SzID"] = QString::fromStdString(item.getSzID());
             hiba["tipus"] =  QString::fromStdString("bejelentett");
             hiba["leiras"] = QString::fromStdString(item.getLeiras());
-            hibakLista.push_back(hiba);
+            hibakLista.append(hiba);
         }
     }
     QJsonDocument docH(hibakLista);
@@ -395,8 +398,9 @@ void Mukodteto::kilepes()
         QTextStream out(&fileH);
         out << docH.toJson();
         fileH.close();
-        cout << "JSON array saved to hibak.json";
+        cout << "JSON array saved to hibak.json" << endl;
     }else cout << "Hiba a hiba lista mentesekor" << endl;
+
     //felhasznalok mentese
     QJsonArray vasarlokLista;
     QJsonArray elofizetokLista;
@@ -418,7 +422,7 @@ void Mukodteto::kilepes()
             string outputString = outputStringStream.str();
             v["filmLista"] = QString::fromStdString(outputString);
 
-            vasarlokLista.push_back(v);
+            vasarlokLista.append(v);
         }
         else if(Elofizeto* elofizeto = dynamic_cast<Elofizeto*>(item))
         {
@@ -428,7 +432,8 @@ void Mukodteto::kilepes()
             e["emailCim"] = QString::fromStdString(elofizeto->getEmailCim());
             e["bankszamlaSzam"] = QString::number(elofizeto->getBankszamlaSzam());
             e["elofizetesID"] = QString::number(elofizeto->getElofizetesID());
-            elofizetokLista.push_back(e);
+            e["elofizetesMegkezdese"] = QString::number(elofizeto->getElofizetesMegkezdese());
+            elofizetokLista.append(e);
         }
     }
     //vasarlok ment
@@ -449,6 +454,28 @@ void Mukodteto::kilepes()
         fileE.close();
         cout << "JSON array saved to elofizetok.json" << endl;
     }else cout << "Hiba a hiba lista mentesekor" << endl;
+
+
+
+    //elofizetesek mentese
+
+    QJsonArray elofizetesekLista;
+    for(auto& item : elofizetesek)
+    {
+        QJsonObject elofizetes;
+        elofizetes["elofizetesTipus"] = QString::number(item->getElofizetesID());
+        elofizetes["elofizetesAra"] = QString::number(item->getElofizetesAra());
+        elofizetesekLista.append(elofizetes);
+    }
+    QJsonDocument docElofizetes(elofizetesekLista);
+    QFile fileElofizetes("elofizetesek.json");
+    if (fileElofizetes.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream out(&fileElofizetes);
+        out << docElofizetes.toJson();
+        fileElofizetes.close();
+        cout << "JSON array saved to hibak.json" << endl;
+    }else cout << "Hiba a hiba lista mentesekor" << endl;
+
 }
 
 

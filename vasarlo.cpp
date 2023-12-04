@@ -114,7 +114,7 @@ void Vasarlo::sajatAdatokBetolt()
 void Vasarlo::adatokMegtekintese()
 {
     Felhasznalo::adatokMegtekintese();
-    cout << "Tipus: Felhasznalo" << endl << "Sajat Filmjeid: " << endl;
+    cout << " Tipus: Felhasznalo" << endl << "Sajat Filmjeid: " << endl;
     for(const auto &item : sajatFilmek)
     {
         cout << "\t" << item->getFilmID()<< " " << item->getCim() << endl;
@@ -184,11 +184,27 @@ bool Vasarlo::elofizetesVasarlasa()
                 }else cout << "error with json files" << endl;
             }else cout << "File(s) Missing!" << endl;
 
+//            for(auto item : vasarlok)
+//            {
+//                item->adatokMegtekintese();
+//            }
+//            for(auto item : elofizetok)
+//            {
+//                item->adatokMegtekintese();
+//            }
 
             {//listák aátírása
-                vasarlok.remove(this);
                 time_t currentTime = time(nullptr);
-                elofizetok.push_back(new Elofizeto(szID, jelszo, emailCim, bankszamlaSzam, 1, currentTime));
+
+                vasarlok.remove_if([&](Vasarlo* vasarlo)
+                {
+                    if(vasarlo->getSzID() == this->getSzID())
+                    {
+                        elofizetok.push_back(new Elofizeto(vasarlo->getSzID(), vasarlo->getJelszo(), vasarlo->getEmailCim(), vasarlo->getBankszamlaSzam(), 1, currentTime));
+                        return true;
+                    }
+                    else return false;
+                });
             }
 
             //felhasznalok mentese
@@ -210,7 +226,7 @@ bool Vasarlo::elofizetesVasarlasa()
                 string outputString = outputStringStream.str();
                 v["filmLista"] = QString::fromStdString(outputString);
 
-                vasarlokLista.push_back(v);
+                vasarlokLista.append(v);
             }
             for(auto& item : elofizetok)
             {
@@ -220,7 +236,7 @@ bool Vasarlo::elofizetesVasarlasa()
                 e["emailCim"] = QString::fromStdString(item->getEmailCim());
                 e["bankszamlaSzam"] = QString::number(item->getBankszamlaSzam());
                 e["elofizetesID"] = QString::number(item->getElofizetesID());
-                elofizetokLista.push_back(e);
+                elofizetokLista.append(e);
             }
             //vasarlok ment
             QJsonDocument docV(vasarlokLista);

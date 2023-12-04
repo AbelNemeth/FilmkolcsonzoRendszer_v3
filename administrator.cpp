@@ -4,9 +4,6 @@ Administrator::Administrator(string _szID):
     Mukodteto(_szID)
 {
     filmekBetolt();
-    hibaListakBeolvas();
-    felhasznalokBeolvas();
-    elofizetesekBeolvas();
 }
 
 Administrator::Administrator():
@@ -223,6 +220,8 @@ void Administrator::elofizetesArModositasa()
 
 void Administrator::kilepes()
 {
+    cout << "admin kilepes..." << endl;
+    //filmek save
     QJsonArray filmekQArray;
     for(auto item : filmek)
     {
@@ -238,7 +237,7 @@ void Administrator::kilepes()
         QTextStream out(&file);
         out << doc.toJson();
         file.close();
-        cout << "JSON array saved to filmek.json";
+        cout << "JSON array saved to filmek.json" << endl;
     }else cout << "Hiba a hiba lista mentesekor" << endl;
 
     Mukodteto::kilepes();

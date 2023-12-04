@@ -85,7 +85,7 @@ void Segito::elofizetesEllenorzese()
             if(Elofizeto* elofizeto = dynamic_cast<Elofizeto*>(item))
             {
                 cout << "Elofizeto: " << elofizeto->getSzID() << " Hatralevo napok szama: ";
-                if(elofizeto->getHatralevoNapok()>30)
+                if(elofizeto->getHatralevoNapok() < 0)
                 {
                     cout << "AZ ELOFIZETESE LEJART!" << endl;
                 }
@@ -94,6 +94,7 @@ void Segito::elofizetesEllenorzese()
                     cout << elofizeto->getHatralevoNapok() << endl;
                 }
             }
+            else cout << "A felhasznalo nem elofizeto" << endl;
         }
     }
     if(!vanIlyen)
@@ -108,6 +109,7 @@ void Segito::elofizetesMegszuntetese()
     string id;
     cin >> id;
     bool vanIlyen = false;
+    Elofizeto* elofizetoToDelete;
     for(auto& item : felhasznalok)
     {
         if(item->getSzID()==id)
@@ -115,14 +117,21 @@ void Segito::elofizetesMegszuntetese()
             if(Elofizeto* elofizeto = dynamic_cast<Elofizeto*>(item))
             {
                 vanIlyen = true;
-                Vasarlo* vasarlo = elofizeto->elofizetesLemondasa();
-                felhasznalok.remove(item);
-                felhasznalok.push_back(vasarlo);
-                cout << "Elofizetes sikeresen megszuntetve!" << endl;
+                elofizetoToDelete = elofizeto;
+//                Vasarlo* vasarlo = elofizeto->elofizetesLemondasa();
+//                felhasznalok.remove(item);
+//                felhasznalok.push_back(vasarlo);
+//                cout << "Elofizetes sikeresen megszuntetve!" << endl;
             }
         }
     }
     if(!vanIlyen) cout << "Nincs ilyen elofizeto" << endl;
+    else
+    {
+        felhasznalok.remove_if([&](const Felhasznalo* obj){return obj->getSzID() == id;});
+        felhasznalok.push_back(elofizetoToDelete->elofizetesLemondasa());
+        cout << "Elofizetes sikeresen megszuntetve!" << endl;
+    }
 }
 
 void Segito::kilepes()
